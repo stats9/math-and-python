@@ -1,0 +1,45 @@
+---
+title: "UMVUE one sample cut poisson distributin"
+format: 
+    html:
+        code-fold: true
+jupyter: python3
+---
+
+
+```{python}
+from sympy.stats import DiscreteRV, P, E, variance
+from sympy import Symbol, factorial, exp, S, simplify, init_printing
+x = Symbol('x', integer = True, positive = True)
+t = Symbol('theta', real = True, positive = True)
+pdf = exp(-t) * t**(x) /(factorial(x) * (1-exp(-t)))
+D = DiscreteRV(x, pdf, set = S.Naturals)
+
+# get expectation of X
+E(D)
+
+
+```
+
+
+# get variance of X
+```{python}
+variance(D)
+
+```
+
+
+## get probability of P(X >= 1)
+```{python}
+temp1 = P(D >= 1)
+simplify(temp1)
+```
+
+
+
+
+```{python}
+
+
+
+```
