@@ -5,7 +5,14 @@ format:
         code-fold: true
 jupyter: python3
 ---
-
+$$
+\begin{align*}
+& \text{if} ~~f_X(x) = \frac{\exp(-\theta)\times \theta^x}{(1 - \exp(-\theta)) \times x!}, \quad x =  1, 2, 3, \dots\quad \theta > 0,  \\
+& \gamma(\theta) = 1 - \exp(-), \\
+& \text{1. calculate UVMUE for} ~\gamma(\theta) ~\text{and Variance of this estimator}.\\ 
+& \text{2. calculate Crammer-Rao Bound for above estimator}.
+\end{align*}
+$$
 
 ```{python}
 from sympy.stats import DiscreteRV, P, E, variance
@@ -39,7 +46,16 @@ simplify(temp1)
 
 
 ```{python}
+temp1 = P(D >= 2)
+simplify(temp1)
 
+
+```
+
+
+```{python}
+temp1 = P(D >= 3)
+simplify(temp1)
 
 
 ```
