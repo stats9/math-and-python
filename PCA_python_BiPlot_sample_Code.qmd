@@ -1,0 +1,121 @@
+---
+title: "PCA With Python"
+author: "Habib Ezatabadi"
+output: gfm
+editor: visual
+---
+
+
+## import require libraries 
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+
+
+## create a pca model 
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+import plyer
+
+## get path
+pathh = plyer.filechooser.open_file()[0]
+
+```
+
+
+## implement Model 
+
+
+```{python}
+dat = pd.read_excel(pathh)
+dat.shape
+index = dat['RTO_Name'].values
+ind = [2, 3, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+dat2 = pd.DataFrame(dat.iloc[:, ind])
+dat2.index = index
+dat2
+
+## To define a standardizer for the data
+scaler = StandardScaler() 
+```
+
+
+
+
+
+```{python}
+colNames = dat2.columns
+Index = dat2.index
+dat_scaled = pd.DataFrame(scaler.fit_transform(dat2), columns = colNames, 
+index = Index)
+dat_scaled
+
+```
+
+
+
+
+## Obtaining all the main components
+
+```{python}
+from sklearn.preprocessing import MinMaxScaler
+scaler2 = MinMaxScaler(feature_range=(0, 1))
+pca = PCA(0.8) 
+pca.fit(dat_scaled)
+pca.n_components_  ## The number of components that cover 90% of the variance
+
+Loading = pca.components_
+
+temp1 = np.repeat("PC", 4); temp2 = [1, 2, 3, 4]
+temp3 = list(map(lambda x, y: x + str(y), temp1, temp2))
+df_loading = pd.DataFrame(Loading.T, index = colNames, columns = temp3)
+df_loading
+
+
+```
+
+## create biplot
+
+
+```{python}
+from adjustText import adjust_text
+#| fig-width: 9
+#| fig-height: 9
+Scores = pca.transform(dat_scaled)
+
+df_score = pd.DataFrame(scaler2.fit_transform(Scores[:, 0:2]), 
+index = index, columns = ["PC1", "PC2"])
+
+
+
+def abbreviate(strings, length = 14):
+    if len(strings) > length:
+        res = strings[:length]
+    else:
+        res = strings
+    return res
+
+fig, ax = plt.subplots(figsize=(14, 9))
+for i, feature in enumerate(df_loading.index):
+    ax.arrow(0, 0, df_loading.iloc[i, 0], 
+    df_loading.iloc[i, 1])
+
+
+
+Texts = [ax.text(df_loading.iloc[i, 0] * 1.01, 
+        df_loading.iloc[i, 1] * 1.01, 
+        abbreviate(feature), fontsize=18, color = "purple", 
+        style = "italic") for i, feature in enumerate(df_loading.index)]
+adjust_text(Texts)
+
+ax.scatter(df_score.PC1, df_score.PC2)
+ax.set_xlabel('PC1', fontsize=20)
+ax.set_ylabel('PC2', fontsize=20)
+ax.set_title('Figure 1', fontsize=20)
+plt.show()
+```
