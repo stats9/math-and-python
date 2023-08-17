@@ -1,7 +1,7 @@
 ---
 title: "PCA With Python"
 author: "Habib Ezatabadi"
-output: gfm
+format: gfm
 editor: visual
 ---
 
