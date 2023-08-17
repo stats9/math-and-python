@@ -93,9 +93,11 @@ index = index, columns = ["PC1", "PC2"])
 
 
 
-def abbreviate(strings, length = 14):
+def abbreviate(strings, length = 4):
     if len(strings) > length:
-        res = strings[:length]
+        ri = round(length/2)
+        le = length - ri
+        res = strings[:le] + strings[(len(strings) - le):len(strings)]
     else:
         res = strings
     return res
