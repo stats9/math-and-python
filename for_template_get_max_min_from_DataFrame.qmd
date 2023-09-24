@@ -1,0 +1,53 @@
+---
+title: "Stats9 Template Code"
+format: gfm
+editor: visual
+---
+
+
+
+## Here I want to include a code example that shows how to extract minimum and maximum values from part of the rows of a data structure and add them to the data frame as separate 
+## columns at the end.
+
+
+```{python}
+#| warning: false
+#| message: false
+import numpy as np
+import pandas as pd
+dict = {'year' : list(np.repeat(1991, 5)),
+'month' : list(np.repeat(4, 5)), 'day': list(np.arange(21, 26))}
+df = pd.DataFrame(dict)
+date_col = pd.to_datetime(df)
+dat = {'case': list(np.repeat(1, 5)), 
+                    'Reg_ins': [8, 6.33, 9, 6.33, 5.5], 
+                    'NPH_ins': [13, 13, 13, 14, 14], 
+                    'Pr_brkfst_glu': [100, 216, 257, 239, 67], 
+                    'Pr_lnch_glu': [135, 59, 73, 41, 100], 
+                    'Pr_sup_glu': [119, 211, 129, 129, 206]}
+dat = pd.DataFrame(dat)
+dat['date'] = date_col
+clist = np.array(list(dat.columns))
+clist_new = list(clist[np.array([-1, 0, 1, 2, 3, 4, 5])])
+df_new = dat[clist_new]
+def get_min(x):
+    y = x[[1, 2, 3]]
+    y.min()
+cols = list(df_new.columns)
+
+nrow = df_new.shape[0]
+min_glu = []
+for i in range(nrow):
+    x = df_new.iloc[i, 4:7]
+    min_glu.append(x.min())
+    
+max_glu = []
+for i in range(nrow):
+    x = df_new.iloc[i, 4:7]
+    max_glu.append(x.max())
+
+df_new.loc[:, 'min_glu'] = pd.Series(min_glu, index = df_new.index) 
+df_new.loc[:, 'max_glu'] = pd.Series(max_glu, index = df_new.index)
+df_new
+
+```
