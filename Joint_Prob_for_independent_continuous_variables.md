@@ -57,4 +57,54 @@ $$
 \mathbb{P} = \int_{-\infty}^{+\infty} f(x_1) \int_{x_1}^{+\infty}f(x_2) \cdots \int_{x_{n-k}}^{+\infty}g(F(x_{n-(k-1)}), k)dF(x_{n-(k-1)})\cdots dx_1 \to 
 $$
 
-##### that `g` function is a polynomial function of degree `K-1`
+##### that `g` function is a polynomial function of degree `K`
+
+  
+
+###### form of `g` function
+
+$$
+\begin{aligned}
+& \int g(x, 1)~dx = x, \\
+& \int g(x, 2)~dx = x - \frac{x^2}{2}, \\
+& \int g(x, 3)~dx = \frac{x}{2}-\frac{x^2}{2} + \frac{x^3}{3!}, \\
+& \int g(x, 4)~dx = \frac{x}{3!} -\frac{x^2}{2 \times 2!} + \frac{x^3}{3!} - \frac{x^4}{4!}, \\
+& \int g(x, 5) ~ dx = \frac{x}{4!} -\frac{x^2}{2 \times 3!} + \frac{x^3}{2 \times 3!} - \frac{x^4}{4!} + \frac{x^5}{5!}, \\
+& \int g(x, 6) ~ dx = \frac{x}{5!} -\frac{x^2}{2 \times 4!} + \frac{x^3}{3 \times 3!} - \frac{x^4}{2 \times 4!} + \frac{x^5}{5!} - \frac{x^6}{6!}, \\
+& \int g(x, 7) ~ dx = \frac{x}{6!} -\frac{x^2}{2 \times 5!} + \frac{x^3}{4! \times 3!} - \frac{x^4}{3! \times 4!} + \frac{x^5}{2 \times 5!} - \frac{x^6}{6!} + \frac{x^7}{7!}, \\
+& \vdots \\
+& \int g(x, k)~ dx = \sum_{i = 1}^k (-1)^{i + 1} \times \frac{x^i}{i! \times (k - i)!} \implies 
+\end{aligned}
+$$
+
+ 
+
+$$
+\mathbb{P} = \int_{-\infty}^{+\infty} g(F(x_1), n)~dx_1 = \sum_{i = 1}^n (-1)^{i + 1} \times \frac{F(x_1)^i}{i! \times (k-i)!}|_{-\infty}^{+\infty} 
+$$
+
+###### We Know That
+
+$$
+F(+\infty) = 1, \quad F(-\infty) = 0 \implies 
+$$
+
+ 
+
+$$
+\begin{aligned}
+& \mathbb{P} = \sum{i = 1}^n (-1)^{i + 1} \frac{1}{i! \times (n-i)!} = \\
+& \frac{1}{n!} \times \sum_{i = 1}^n (-1)^{i + 1} \frac{n!}{i! \times (n-i)!} = \\
+& \frac{1}{n!} \sum_{i = 1}^n {n \choose i} (-1)^{i + 1} = \\
+& \frac{-1}{n!} \sum_{i = 1}^n {n \choose i} (-1)^{i} = \\
+& \frac{-1}{n!} \sum_{i = 1}^n {n \choose i} (-1)^{i} \times (1)^{(n - i)} = \\
+& \frac{-1}{n!} ((-1 + 1)^n - (-1)^0 = \\
+\frac{1}{n!}
+\end{aligned}
+$$
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+#### Experimental proof for n<sup>th</sup> equal to 3 and 4
