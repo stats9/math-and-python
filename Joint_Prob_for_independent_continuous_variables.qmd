@@ -35,8 +35,8 @@ $$
 & \text{We know that if}~~X_i ~~\text{is continuous Variable}\implies F(X_i)\sim \text{Unif}(0, 1) \implies \\
 & \mathbb{P} = \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}f(x_2)\cdots
 \int_{-\infty}^{+\infty}dF(x_{n})dx_{n-1}\cdots dx_2dx_1 = \\
-& \int_{-\infty}^{+\infty}f(x_1)\int_{x_2}^{+\infty}f(x_2)\cdots
-\int_{F(x_{n-1})}^{1}dF(x_{n})dx_{n-1}\cdots dx_2dx_1 = 
+& \int_{x_{n-1}}^{+\infty}f(x_1)\int_{x_2}^{+\infty}f(x_2)\cdots
+\int_{x_{n-2}}^{+\infty}f(x_{n-1})(1 - F(x_{n-1})dx_{n-1}\cdots dx_2dx_1 = 
 \end{align}
 $$
 
