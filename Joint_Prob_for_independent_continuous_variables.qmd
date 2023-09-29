@@ -1,5 +1,5 @@
 ---
-title: "Joint Probability for iid Variables"
+title: "Joint Probability for iid Random Variables"
 format: gfm
 editor: visual
 ---

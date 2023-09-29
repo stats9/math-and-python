@@ -1,4 +1,4 @@
-# Joint Probability for iid Variables
+# Joint Probability for iid Random Variables
 
 ## Problem
 
