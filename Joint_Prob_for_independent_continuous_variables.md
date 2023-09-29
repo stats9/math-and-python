@@ -52,3 +52,7 @@ $$
 $$
 
 ##### If we continue in the same way, in the following, we will reach an expression set in the form below in each time of integration;
+
+$$
+\mathbb{P} = \int_{-\infty}^{+\infty} f(x_1) \int_{x_1}^{+\infty}f(x_2) \cdots \int_{x_{n-k}}^{+\infty}g(F(x_{n-(k-1)}), k)dF(x_{n-(k-1)})\cdots dx_1 \to 
+$$
