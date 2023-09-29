@@ -8,8 +8,6 @@ editor: visual
 ## Problem
 
 
-```r
-
 $$
 \begin{align}
 & \text{Prove that if} \quad X_1, X_2, \dots, X_n \overset{iid}{\sim} F(X), \quad \text{and}\\
@@ -19,7 +17,6 @@ $$
 \end{align}
 $$
 
-```
 
 
 \ 
@@ -30,7 +27,6 @@ $$
 \
 \
 
-```r
 
 $$
 \begin{aligned}
@@ -42,7 +38,6 @@ $$
 \end{aligned}
 $$
 
-```
 
 
 
