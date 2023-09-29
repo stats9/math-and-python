@@ -136,7 +136,7 @@ import numpy as np
 from scipy import stats
 import pandas as pd
 import math
-d = 1e+3
+
 def sim_prob(nsim = int(1e+4), Sid = 12, size_sample = 3):
     rvv = stats.norm.rvs(loc = 0, scale = 1, size = nsim * size_sample, 
     random_state = Sid).reshape(nsim, size_sample)
@@ -146,22 +146,38 @@ def sim_prob(nsim = int(1e+4), Sid = 12, size_sample = 3):
         return np.all(x == y)
     temp = np.apply_along_axis(axis = 1, arr = rvv, func1d  = get_pr)
     return temp.sum() / nsim
+```
 
 
-## n = 3
+***
 
+
+
+
+#### get result for  `n = 3`
+
+```{python}
 nSize = [int(1e+2), int(1e+3), int(1e+4), int(1e+5), int(1e+6)]
 temp2 = list(map(lambda x: sim_prob(nsim = x), nSize))
 np.set_printoptions(suppress = True)
 temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(3), 5))], axis = 1)
 pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
 'exact_prob'])
+```
+
+***
 
 
-## n = 4
+#### get result for  `n = 4`
 
+
+```{python}
 temp2 = list(map(lambda x: sim_prob(nsim = x, size_sample = 4), nSize))
 temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(4), 5))], axis = 1)
 pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
 'exact_prob'])
 ```
+
+
+***
+***
