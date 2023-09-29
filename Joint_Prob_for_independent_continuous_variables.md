@@ -37,7 +37,6 @@ $$
 & \text{as before:}\\
 & \mathbb{P} = \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}\int\cdots\int_{x_{n-4}}^{+\infty}\frac{1}{3!} - (\frac{F(x_{n-3})}{2}-\frac{F(x_{n-3})^2}{2}+\frac{F(x_{n-3})^3}{3!})dF(x_{n-3})\cdots dx_1 = \\
 & \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}\int\cdots\int_{x_{n-5}}^{+\infty}\frac{1}{4!} - (\frac{F(x_{n-4})}{3!}-\frac{F(x_{n-4})^2}{2\times 2!}+\frac{F(x_{n-3})^3}{3!} - \frac{F(x_{n-4})^4}{4!})dF(x_{n-4})\cdots dx_1, \\
-& \text{If we continue in the same way, in the following, we will reach an expression set in the form below in each time of integration;}\\
-& 
+& \text{If we continue in the same way, in the following, we will reach an expression set in the form below in each time of integration;}
 \end{align}
 $$
