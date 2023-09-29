@@ -27,8 +27,17 @@ $$
 & \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}f(x_2)\int_{x_2}^{+\infty}f(x_3)\int_{x_3}^{+\infty}f(x_4)\cdots\int_{x_{n-1}}^{+\infty}\frac{d}{dx_n}F(x_n)dx_{n-1}dx_{n-2}\cdots dx_2dx_1, \\
 & \text{We know that if}~~X_i ~~\text{is continuous Variable}\implies F(X_i)\sim \text{Unif}(0, 1) \implies \\
 & \mathbb{P} = \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}f(x_2)\cdots
-\int_{-\infty}^{+\infty}dF(x_{n})dx_{n-1}\cdots dx_2dx_1 = \\
+\int_{x_{n-1}}^{+\infty}dF(x_{n})dx_{n-1}\cdots dx_2dx_1 = \\
 & \int_{x_{n-1}}^{+\infty}f(x_1)\int_{x_2}^{+\infty}f(x_2)\cdots
-\int_{x_{n-2}}^{+\infty}f(x_{n-1})(1 - F(x_{n-1})dx_{n-1}\cdots dx_2dx_1 = 
+\int_{x_{n-2}}^{+\infty}f(x_{n-1})(1 - F(x_{n-1}))dx_{n-1}\cdots dx_2dx_1 = \\
+& \int_{x_{n-1}}^{+\infty}f(x_1)\int_{x_2}^{+\infty}f(x_2)\cdots
+\int_{x_{n-2}}^{+\infty}\frac{d}{dx_{n-1}}F(x_{n-1})(1 - F(x_{n-1}))dx_{n-1}\cdots dx_2dx_1 = \\
+& \int_{-\infty}^{+\infty}f(x_1) \int_{x_1}^{+\infty} f(x_2)\cdots \int_{F(x_{n-2})}^1 (1 - F(x_{n-1}))dF(x_{n-1})\cdots dx_1 =\\
+& \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}\int\cdots\int_{x_{n-3}}^{+\infty}\frac{1}{2} - (F(x_{n-2}-\frac{F(x_{n-2})^2}{2}))dx_{n-2}\cdots dx_1, \\
+& \text{as before:}\\
+& \mathbb{P} = \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}\int\cdots\int_{x_{n-4}}^{+\infty}\frac{1}{3!} - (\frac{F(x_{n-3})}{2}-\frac{F(x_{n-3})^2}{2}+\frac{F(x_{n-3})^3}{3!})dF(x_{n-3})\cdots dx_1 = \\
+& \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}\int\cdots\int_{x_{n-5}}^{+\infty}\frac{1}{4!} - (\frac{F(x_{n-4})}{3!}-\frac{F(x_{n-4})^2}{2\times 2!}+\frac{F(x_{n-3})^3}{3!} - \frac{F(x_{n-4})^4}{4!})dF(x_{n-4})\cdots dx_1, \\
+& \text{If we continue in the same way, in the following, we will reach an expression set in the form below in each time of integration;}\\
+& 
 \end{align}
 $$
