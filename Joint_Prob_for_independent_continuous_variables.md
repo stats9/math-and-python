@@ -99,7 +99,7 @@ $$
 & \frac{-1}{n!} \sum_{i = 1}^n {n \choose i} (-1)^{i} = \\
 & \frac{-1}{n!} \sum_{i = 1}^n {n \choose i} (-1)^{i} \times (1)^{(n - i)} = \\
 & \frac{-1}{n!} ((-1 + 1)^n - (-1)^0) = \\
-\frac{1}{n!}
+& \boldsymbole{\frac{1}{n!}}
 \end{aligned}
 $$
 
