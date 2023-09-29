@@ -56,3 +56,5 @@ $$
 $$
 \mathbb{P} = \int_{-\infty}^{+\infty} f(x_1) \int_{x_1}^{+\infty}f(x_2) \cdots \int_{x_{n-k}}^{+\infty}g(F(x_{n-(k-1)}), k)dF(x_{n-(k-1)})\cdots dx_1 \to 
 $$
+
+##### that `g` function is a polynomial function of degree `K-1`
