@@ -2,6 +2,8 @@
 
 ## Problem
 
+``` r
+
 $$
 \begin{align}
 & \text{Prove that if} \quad X_1, X_2, \dots, X_n \overset{iid}{\sim} F(X), \quad \text{and}\\
@@ -10,6 +12,7 @@ $$
 & \text{and} \quad k_i \in (1, 2, 3, \dots, n), \quad k_i \ne k_j, ~~ \forall ~~ i, j \in  (1, 2, 3, \dots, n), ~~ i \ne j.
 \end{align}
 $$
+```
 
    
 
@@ -17,6 +20,8 @@ $$
 
   
   
+
+``` r
 
 $$
 \begin{aligned}
@@ -27,6 +32,7 @@ $$
 & \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}f(x_2)\int_{x_2}^{+\infty}f(x_3)\int_{x_3}^{+\infty}f(x_4)\cdots\int_{x_{n-1}}^{+\infty}\frac{d}{dx_n}F(x_n)dx_{n-1}dx_{n-2}\cdots dx_2dx_1, \\
 \end{aligned}
 $$
+```
 
 $$
 \begin{aligned}
