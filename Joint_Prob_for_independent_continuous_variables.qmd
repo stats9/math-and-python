@@ -26,12 +26,19 @@ $$
 \
 
 $$
-\begin{align}
+\begin{aligned}
 & \text{if}\quad \langle k_1, k_2, k_3, \dots, k_n\rangle  = \langle 1, 2, 3, \dots, n \rangle \implies \\
 & \mathbb{P} = \mathcal{P}(X_{k_1} \leq X_{k_2} \leq X_{k_3}\leq \cdots \leq X_{k_n}) = \mathcal{P}(X_1 \leq X_2 \leq X_3 \leq \cdots \leq X_n), \\
 & \mathbb{P} = \int_{-\infty}^{+\infty}\int_{x_1}^{+\infty}\int_{x_2}^{+\infty}\int_{x_3}^{+\infty}\cdots\int_{x_{n-1}}^{+\infty}\prod_{i = 1}^n f(x_i)~dx_ndx_{n-1}dx_{n-2}\cdots dx_2dx_1 = \\
 & \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}f(x_2)\int_{x_2}^{+\infty}f(x_3)\int_{x_3}^{+\infty}f(x_4)\cdots\int_{x_{n-1}}^{+\infty}f(x_n)dx_{n-1}dx_{n-2}\cdots dx_2dx_1 = \\
 & \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}f(x_2)\int_{x_2}^{+\infty}f(x_3)\int_{x_3}^{+\infty}f(x_4)\cdots\int_{x_{n-1}}^{+\infty}\frac{d}{dx_n}F(x_n)dx_{n-1}dx_{n-2}\cdots dx_2dx_1, \\
+\end{aligned}
+$$
+
+
+
+$$
+\begin{aligned}
 & \text{We know that if}~~X_i ~~\text{is continuous Variable}\implies F(X_i)\sim \text{Unif}(0, 1) \implies \\
 & \mathbb{P} = \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}f(x_2)\cdots
 \int_{x_{n-1}}^{+\infty}dF(x_{n})dx_{n-1}\cdots dx_2dx_1 = \\
@@ -40,11 +47,9 @@ $$
 & \int_{x_{n-1}}^{+\infty}f(x_1)\int_{x_2}^{+\infty}f(x_2)\cdots
 \int_{x_{n-2}}^{+\infty}\frac{d}{dx_{n-1}}F(x_{n-1})(1 - F(x_{n-1}))dx_{n-1}\cdots dx_2dx_1 = \\
 & \int_{-\infty}^{+\infty}f(x_1) \int_{x_1}^{+\infty} f(x_2)\cdots \int_{F(x_{n-2})}^1 (1 - F(x_{n-1}))dF(x_{n-1})\cdots dx_1 =\\
-& \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}\int\cdots\int_{x_{n-3}}^{+\infty}\frac{1}{2} - (F(x_{n-2}-\frac{F(x_{n-2})^2}{2}))dx_{n-2}\cdots dx_1, \\
-& \text{as before:}\\
-\end{align}
+& \int_{-\infty}^{+\infty}f(x_1)\int_{x_1}^{+\infty}\int\cdots\int_{x_{n-3}}^{+\infty}\frac{1}{2} - (F(x_{n-2}-\frac{F(x_{n-2})^2}{2}))dx_{n-2}\cdots dx_1, 
+\end{aligned}
 $$
-
 
 ##### as before
 
