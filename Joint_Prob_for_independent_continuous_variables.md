@@ -107,4 +107,62 @@ $$
 
 ------------------------------------------------------------------------
 
-#### Experimental proof for n<sup>th</sup> equal to 3 and 4
+#### Experimental proof for n<sup>th</sup> equal to 3 and 4 for Normal Standard Distribution
+
+``` python
+import numpy as np
+from scipy import stats
+import pandas as pd
+import math
+d = 1e+3
+def sim_prob(nsim = int(1e+4), Sid = 12, size_sample = 3):
+    rvv = stats.norm.rvs(loc = 0, scale = 1, size = nsim * size_sample, 
+    random_state = Sid).reshape(nsim, size_sample)
+    def get_pr(x):
+        y = x.copy()
+        x.sort()
+        return np.all(x == y)
+    temp = np.apply_along_axis(axis = 1, arr = rvv, func1d  = get_pr)
+    return temp.sum() / nsim
+
+
+## n = 3
+
+nSize = [int(1e+2), int(1e+3), int(1e+4), int(1e+5), int(1e+6)]
+temp2 = list(map(lambda x: sim_prob(nsim = x), nSize))
+np.set_printoptions(suppress = True)
+temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(3), 5))], axis = 1)
+pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
+'exact_prob'])
+
+
+## n = 4
+
+temp2 = list(map(lambda x: sim_prob(nsim = x, size_sample = 4), nSize))
+temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(4), 5))], axis = 1)
+pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
+'exact_prob'])
+```
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&#10;    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+&#10;    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+|     | Nsize_simulate | Prob_simulate | exact_prob |
+|-----|----------------|---------------|------------|
+| 0   | 100.0          | 0.050000      | 0.041667   |
+| 1   | 1000.0         | 0.042000      | 0.041667   |
+| 2   | 10000.0        | 0.041100      | 0.041667   |
+| 3   | 100000.0       | 0.042510      | 0.041667   |
+| 4   | 1000000.0      | 0.041636      | 0.041667   |
+
+</div>
