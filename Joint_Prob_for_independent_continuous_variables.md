@@ -120,7 +120,7 @@ $$
 & \implies \mathcal{P}(X_i = X_{(1)}) =  \\
 & \mathcal{P}(X_1 \leq X_{r_1} \leq X_{r_2} \leq \cdots \leq X_{r_{n-1}}) = \frac{1}{n}, \quad \quad \text{(ii)}\\
 & \text{and} \quad r_i \in (2, 3, \dots, n), \quad r_i \ne r_j, ~~ \forall ~~ i, j \in  (2, 3, \dots, n-1), ~~ i \ne j, \\
-&\text{Such that} ~~ X_{(1)}~~ \text{Is The lowest value in the sample}.
+&\text{Such that} ~~ X_{(1)} ~~ \text{Is The lowest value in the sample}.
 \end{align}
 $$
 
