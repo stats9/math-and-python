@@ -1,6 +1,6 @@
 # Joint Probability for iid Random Variables
 
-## Problem
+# Problem
 
 $$
 \begin{align}
@@ -13,10 +13,12 @@ $$
 
    
 
-## We will prove this relation for a specific case, we will generalize it for other cases.
+#### We will prove this relation for a specific case, we will generalize it for other cases.
 
   
   
+
+## First Way
 
 $$
 \begin{aligned}
@@ -105,9 +107,81 @@ $$
 
 ------------------------------------------------------------------------
 
+## Second Way
+
+**Lemma (1):**
+
+   
+
+$$
+\begin{align}
+& \text{if} \quad X_1, X_2, \dots, X_n \overset{iid}{\sim} F(X), \quad \quad \text{(i)} \\
+& \text{and}\quad  X_i ~~\text{is continuous variable}, \quad i \in (1, 2, \dots, n), \\
+& \implies \mathcal{P}(X_i = X_{(1)}) =  \\
+& \mathcal{P}(X_1 \leq X_{r_1} \leq X_{r_2} \leq \cdots \leq X_{r_{n-1}}) = \frac{1}{n}, \quad \quad \text{(ii)}\\
+& \text{and} \quad r_i \in (2, 3, \dots, n), \quad r_i \ne r_j, ~~ \forall ~~ i, j \in  (2, 3, \dots, n-1), ~~ i \ne j, \\
+&\text{Such that} ~~ X_{(1)}~~ \text{Is The lowest value in the sample}.
+\end{align}
+$$
+
+**Proof:**
+
+   
+
+$$
+\begin{aligned}
+& A_1:\quad X_1 = X_{(1)}, \\
+& A_2:\quad X_2 = X_{(1)}, \\
+& A_3:\quad X_3 = X_{(1)}, \\
+& \vdots \\
+& A_{n-1}:\quad X_{n-1} = X_{(1)}, \\
+& A_n:\quad X_n = X_{(1)}, \\
+& \text{Based (i)}: \quad \mathcal{P}(A_1) = \mathcal{P}(A_2) = \cdots = \mathcal{P}(A_n), \quad \text{(iii)}\\
+& \text{and} \quad \mathcal{P}(A_i \cap A_j) = 0, \quad \forall~~ i, j \in (1, 2, ..., n),~~i \ne j\quad \text{(iv)} \\
+& \text{It is quite clear that:} \\
+& \bigcup_{i = 1}^n A_i = \Omega, \\
+& \Omega: \quad \text{Total Sample Space} \implies \\
+& \mathcal{P}(\bigcup_{i = 1}^n A_i) = \mathcal{P}(\Omega) = 1, \\
+& \text{Based (iv):}\quad \mathcal{P}(\bigcup_{i = 1}^n A_i) = \sum_{i=1}^n \mathcal{P}(A_i) = 1, \\
+& \text{Based (i), (iii), (iv)}: \quad \mathcal{P}(A_i) = \frac{1}{n}, ~~i \in (1, 2, ..., n).
+\end{aligned}
+$$
+
+  
+
+ 
+
+$$
+\begin{aligned}
+& \mathbb{P} = \mathcal{P}(X_1 \leq X_2 \leq \cdots \leq X_n), \\
+& \text{Based on the existing relationships in the conditional probability for the Combined Events:} \\
+& \mathbb{P} = \mathcal{P}(X_1  = \min (X_1, X_2, X_3, \dots, X_n)) \times \\
+& \mathcal{P}(X_2  = \min (X_1, X_2, X_3, \dots, X_n)  | X_1  = \min (X_1, X_2, X_3, \dots, X_n)) \times \\
+& \mathcal{P}(X_3 = \min(X_1, X_2, X_3, X_4, ..., X_n) | X_1  = \min (X_1, X_2, X_3, \dots, X_n), X_2  = \min (X_2, X_3, \dots, X_n)) \times \\
+& \cdots \times \mathcal{P}(X_{n-1} = \min(X_1, X_2, \dots, X_{n-1}, X_n) | \cdots) \times \mathcal{P}(X_n = \min(X_1, X_2, \dots, X_{n-1}, X_n)| \cdots) = \\
+& \mathcal{P}(X_1  = \min (X_1, X_2, X_3, \dots, X_n)) \times \\
+& \mathcal{P}(X_2  = \min (X_2, X_3, X_3, \dots, X_n)) \times \\
+& \mathcal{P}(X_3  = \min (X_3, X_4, X_3, \dots, X_n)) \times \\
+& \vdots \\
+& \mathcal{P}(X_{n-1}  = \min (X_{n-1}, X_n)) \times \\
+& \mathcal{P}(X_n = \min (X_n))
+\end{aligned} 
+$$
+
+   
+
+$$
+\begin{aligned}
+& \text{Based Lemma (1):}\\
+& \mathbb{P} = \frac{1}{n} \times \frac{1}{n-1}\times \frac{1}{n-2}\times \cdots \times \frac{1}{2}\times \frac{1}{1} = \frac{1}{n!}
+\end{aligned}
+$$
+
 ------------------------------------------------------------------------
 
-#### Experimental proof for n<sup>th</sup> equal to 3 and 4 for Normal Standard Distribution
+   
+
+## Experimental proof for n<sup>th</sup> equal to 3 and 4 for Normal Standard Distribution
 
 ``` python
 import numpy as np
