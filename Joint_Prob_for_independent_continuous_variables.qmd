@@ -255,7 +255,6 @@ np.set_printoptions(suppress = True)
 temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(3), 5))], axis = 1)
 res1 = pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
 'exact_prob'])
-print(res1.to_string(index = False))
 HTML(res1.to_html(index=False))
 ```
 
@@ -270,7 +269,7 @@ temp2 = list(map(lambda x: sim_prob(nsim = x, size_sample = 4), nSize))
 temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(4), 5))], axis = 1)
 res2 = pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
 'exact_prob'])
-print(res2.to_string(index = False))
+HTML(res1.to_html(index=False))
 ```
 
 
