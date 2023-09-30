@@ -233,16 +233,16 @@ temp2 = list(map(lambda x: sim_prob(nsim = x, size_sample = 4), nSize))
 temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(4), 5))], axis = 1)
 res2 = pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
 'exact_prob'])
-HTML(res1.to_html(index=False))
+HTML(res2.to_html(index=False))
 ```
 
 | Nsize_simulate | Prob_simulate | exact_prob |
 |----------------|---------------|------------|
-| 100.0          | 0.120000      | 0.166667   |
-| 1000.0         | 0.140000      | 0.166667   |
-| 10000.0        | 0.164600      | 0.166667   |
-| 100000.0       | 0.167130      | 0.166667   |
-| 1000000.0      | 0.165705      | 0.166667   |
+| 100.0          | 0.050000      | 0.041667   |
+| 1000.0         | 0.042000      | 0.041667   |
+| 10000.0        | 0.041100      | 0.041667   |
+| 100000.0       | 0.042510      | 0.041667   |
+| 1000000.0      | 0.041636      | 0.041667   |
 
 ------------------------------------------------------------------------
 
