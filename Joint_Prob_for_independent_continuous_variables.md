@@ -205,36 +205,32 @@ def sim_prob(nsim = int(1e+4), Sid = 12, size_sample = 3):
 #### get result for `n = 3`
 
 ``` python
+from IPython.display import HTML
+
 nSize = [int(1e+2), int(1e+3), int(1e+4), int(1e+5), int(1e+6)]
 temp2 = list(map(lambda x: sim_prob(nsim = x), nSize))
 np.set_printoptions(suppress = True)
 temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(3), 5))], axis = 1)
-pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
+res1 = pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
 'exact_prob'])
+print(res1.to_string(index = False))
+HTML(res1.to_html(index=False))
 ```
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
+     Nsize_simulate  Prob_simulate  exact_prob
+              100.0       0.120000    0.166667
+             1000.0       0.140000    0.166667
+            10000.0       0.164600    0.166667
+           100000.0       0.167130    0.166667
+          1000000.0       0.165705    0.166667
 
-|     | Nsize_simulate | Prob_simulate | exact_prob |
-|-----|----------------|---------------|------------|
-| 0   | 100.0          | 0.120000      | 0.166667   |
-| 1   | 1000.0         | 0.140000      | 0.166667   |
-| 2   | 10000.0        | 0.164600      | 0.166667   |
-| 3   | 100000.0       | 0.167130      | 0.166667   |
-| 4   | 1000000.0      | 0.165705      | 0.166667   |
-
-</div>
+| Nsize_simulate | Prob_simulate | exact_prob |
+|----------------|---------------|------------|
+| 100.0          | 0.120000      | 0.166667   |
+| 1000.0         | 0.140000      | 0.166667   |
+| 10000.0        | 0.164600      | 0.166667   |
+| 100000.0       | 0.167130      | 0.166667   |
+| 1000000.0      | 0.165705      | 0.166667   |
 
 ------------------------------------------------------------------------
 
@@ -243,32 +239,17 @@ pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate',
 ``` python
 temp2 = list(map(lambda x: sim_prob(nsim = x, size_sample = 4), nSize))
 temp3 = np.stack([nSize, temp2, list(np.repeat(1/math.factorial(4), 5))], axis = 1)
-pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
+res2 = pd.DataFrame(temp3, columns = ['Nsize_simulate', 'Prob_simulate', 
 'exact_prob'])
+print(res2.to_string(index = False))
 ```
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-
-|     | Nsize_simulate | Prob_simulate | exact_prob |
-|-----|----------------|---------------|------------|
-| 0   | 100.0          | 0.050000      | 0.041667   |
-| 1   | 1000.0         | 0.042000      | 0.041667   |
-| 2   | 10000.0        | 0.041100      | 0.041667   |
-| 3   | 100000.0       | 0.042510      | 0.041667   |
-| 4   | 1000000.0      | 0.041636      | 0.041667   |
-
-</div>
+     Nsize_simulate  Prob_simulate  exact_prob
+              100.0       0.050000    0.041667
+             1000.0       0.042000    0.041667
+            10000.0       0.041100    0.041667
+           100000.0       0.042510    0.041667
+          1000000.0       0.041636    0.041667
 
 ------------------------------------------------------------------------
 
