@@ -60,7 +60,7 @@ def f(x):
     res = x[0] ** 2 + x[1] ** 2
     return res
 int_result = np.apply_along_axis(f, 1, my_mat)
-int_result.mean()
+result_scratch = int_result.mean()
 
 
 
@@ -75,7 +75,15 @@ def f(x):
     res = x[0] ** 2 + x[1] ** 2
     return res
 int_result2 = np.apply_along_axis(f, 1, my_mat2)
-int_result2.mean()
+result_python_package = int_result2.mean()
+print("""
+Result of my function that implement from scratch: {}, \n\n
+Result of python package: {}
+""".format(result_scratch, result_python_package))
 ```
 
-    0.6666154594225222
+
+    Result of my function that implement from scratch: 0.6666154594225222, 
+
+
+    Result of python package: 0.6666154594225222
