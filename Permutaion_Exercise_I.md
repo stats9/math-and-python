@@ -1,5 +1,4 @@
 # Permutaion exercise
-habib ezzatabadi
 
 #### Suppose we want to make 6-digit numbers with numbers 1, 2, 3, 4, 5 and 6 without repetition. If we arrange the numbers in ascending order, what number will be the 319th number?
 

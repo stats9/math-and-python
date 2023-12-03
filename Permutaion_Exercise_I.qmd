@@ -1,5 +1,4 @@
 ---
-author: habib ezzatabadi
 title: Permutaion exercise
 format: gfm
 editor: visual
