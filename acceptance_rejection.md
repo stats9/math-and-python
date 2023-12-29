@@ -1,4 +1,4 @@
-# acceptance-rejection method with R
+# acceptance-rejection method with python
 
 ## We want to generate data using R from the following distribution
 
@@ -90,28 +90,28 @@ plt.show()
 ```
 
 
-          mean simulation: 0.3006487749474491, 
+          mean simulation: 0.30078913706326244, 
 
           mean Real: 0.30000000000000004, 
 
-          variance simulation: 0.021260579601547872, 
+          variance simulation: 0.021028185265233243, 
 
           variance real: 0.021, 
 
-          number of repeatition: 26456, 
+          number of repeatition: 26657, 
 
           Expected value: 26697.440111491196
           
 
-          mean simulation: 0.2995757025582072, 
+          mean simulation: 0.30010201474014875, 
 
           mean Real: 0.30000000000000004, 
 
-          variance simulation: 0.021065948975646943, 
+          variance simulation: 0.021058133324354508, 
 
           variance real: 0.021, 
 
-          number of repeatition: 267443, 
+          number of repeatition: 268261, 
 
           Expected value: 266974.40111491195
           

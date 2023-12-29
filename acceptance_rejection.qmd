@@ -1,5 +1,5 @@
 ---
-title: acceptance-rejection method with R
+title: acceptance-rejection method with python
 format: gfm
 editor: visual
 ---
