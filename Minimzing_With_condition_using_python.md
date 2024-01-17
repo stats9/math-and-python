@@ -108,7 +108,21 @@ print(f"""
 ## check soloution:
 
 ``` python
-integrate(fx, (x, result[0], result[1]))
+round(integrate(fx, (x, result[0], result[1])), 6)
 ```
 
-$\displaystyle 0.499999998965099$
+$\displaystyle 0.5$
+
+``` python
+a = result[0]; b = result[1]
+
+print(f"""
+a**2 - a**3: { round(a**2 - a**3, 6)}, \n
+b**2 - b**3: { round(b**2 - b**3, 6)}
+""")
+```
+
+
+    a**2 - a**3: 0.126919, 
+
+    b**2 - b**3: 0.126919
