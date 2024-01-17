@@ -17,7 +17,7 @@ $$
 & X \sim \text{Beta}(3, 2), \\
 & \mathcal{P}(a < X < b) = \int_a^b 12x^2 (1 - x) dx = \\
 & 3(a^4 - b^4) + 4(b^3 - a^3) = 0.5 \implies \\
-& \text{Using Lagrange Method:}\quad \gamma(a, b, \lambda) = b - a + \lambda \left\{\int_a^b f(x)dx - 0.5\right\} \implies  \\
+& \text{Using Lagrange Method:}\quad \gamma(a, b, \lambda) = b - a + \lambda \left[\int_a^b f(x)dx - 0.5\right] \implies  \\
 & (\hat{a}, \hat{b}): ~~ \begin{cases} \frac{\partial \gamma}{\partial \lambda} = 0 \\
  \frac{\partial \gamma}{\partial a} = 0 \\
  \frac{\partial \gamma}{\partial b} = 0\end{cases} \implies \\
