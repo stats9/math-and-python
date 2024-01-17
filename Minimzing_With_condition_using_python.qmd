@@ -118,7 +118,18 @@ print(f"""
 
 ```{python}
 
-integrate(fx, (x, result[0], result[1]))
+round(integrate(fx, (x, result[0], result[1])), 6)
 ```
 
 
+```{python}
+
+a = result[0]; b = result[1]
+
+print(f"""
+a**2 - a**3: { round(a**2 - a**3, 6)}, \n
+b**2 - b**3: { round(b**2 - b**3, 6)}
+""")
+
+
+```
