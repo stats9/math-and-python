@@ -1,0 +1,984 @@
+\documentclass[12pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \author{Habib Ezzatabadi}
+    
+    \date{$2024$}
+    \title{"Joint Distribution of $X$ and $|X|$ when $X \sim \mathcal{N}(0, \sigma^2)$}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \paragraph{\texorpdfstring{We want to calculate Joint Distribution of
+\(X\) and \(|X|\) When
+\(X \sim \mathcal{N}(0, \sigma^2)\)}{We want to calculate Joint Distribution of X and \textbar X\textbar{} When X \textbackslash sim \textbackslash mathcal\{N\}(0, \textbackslash sigma\^{}2)}}\label{we-want-to-calculate-joint-distribution-of-x-and-x-when-x-sim-mathcaln0-sigma2}
+
+    \[
+\begin{aligned}
+& X\sim\mathcal{N}(0, \sigma^2), \quad Y = \vert X \vert \implies \\
+& P^* = \mathcal{P}(X \leq x, Y \leq y) = F_{X, Y}(x, y) = ? \\
+& \mathcal{P}(X \leq x, Y \leq y) = \mathcal{P}(X \leq x, Y \leq y, X > 0) + \mathcal{P}(X \leq x, Y \leq y, X < 0)\\
+& \mathcal{P}(0 < X \leq x, ~ X \leq y) + \mathcal{P}(X \leq \min(0, x), ~0 < -X < y) \implies \\
+& P^* = \mathcal{P}(0 < X \leq \min(x, y)) + \mathcal{P}(X \leq \min(0, x), -y < X < 0) \implies \\
+& P^* = \begin{cases}
+x > 0: & \mathcal{P}(-y \leq X \leq \min(x, y)) \\
+x < 0: & \begin{cases} 
+x > -y: & \mathcal{P}(-y < X < x) \\
+x < -y: & 0.
+\end{cases}
+\end{cases}
+\end{aligned}
+\]
+
+    \subsubsection{To show that the way we followed was the correct method.
+We also estimate the results based on the simulation and compare it to
+the above
+proposition.}\label{to-show-that-the-way-we-followed-was-the-correct-method.-we-also-estimate-the-results-based-on-the-simulation-and-compare-it-to-the-above-proposition.}
+
+\texttt{python\ code}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{66}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} load require libraries }
+\PY{k+kn}{from} \PY{n+nn}{scipy} \PY{k+kn}{import} \PY{n}{stats}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd} 
+
+\PY{k}{class} \PY{n+nc}{get\PYZus{}prob}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{nsim}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{}\PYZsh{} define number of simulation}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{nsim} \PY{o}{=} \PY{n}{nsim}
+        
+        \PY{c+c1}{\PYZsh{} define method for get x and y}
+    \PY{k}{def} \PY{n+nf}{get\PYZus{}xy}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{sigg} \PY{o}{=} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{seed} \PY{o}{=} \PY{l+m+mi}{123}\PY{p}{)}\PY{p}{:} 
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{x} \PY{o}{=} \PY{n}{x}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y} \PY{o}{=} \PY{n}{y} 
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sigg} \PY{o}{=} \PY{n}{sigg}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{seed} \PY{o}{=} \PY{n}{seed}
+        
+    \PY{c+c1}{\PYZsh{}\PYZsh{} define method for implement simulation }
+    \PY{k}{def} \PY{n+nf}{sim\PYZus{}main}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:} 
+        \PY{n}{sim\PYZus{}res} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{o}{.}\PY{n}{rvs}\PY{p}{(}\PY{n}{loc} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{scale} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sigg}\PY{p}{,} \PY{n}{size} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{nsim}\PY{p}{,} \PY{n}{random\PYZus{}state} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{seed}\PY{p}{)}
+        \PY{n}{temp1} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{u}\PY{p}{:} \PY{l+m+mi}{1} \PY{k}{if} \PY{p}{(}\PY{n}{u} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{x} \PY{o+ow}{and} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{u}\PY{p}{)} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y}\PY{p}{)} \PY{k}{else} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{sim\PYZus{}res}\PY{p}{)}\PY{p}{)}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{temp1}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{}\PYZsh{} define method for exactly value }
+    \PY{k}{def} \PY{n+nf}{exact\PYZus{}prob}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:} 
+        \PY{n}{rvss} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{loc} \PY{o}{=} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{scale} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sigg}\PY{p}{)} 
+        \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{x} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:} 
+            \PY{n}{temp} \PY{o}{=} \PY{p}{(}\PY{n}{rvss}\PY{o}{.}\PY{n}{cdf}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{[}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{x}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{rvss}\PY{o}{.}\PY{n}{cdf}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y}\PY{p}{)}\PY{p}{)}
+        \PY{k}{elif} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{x} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{o}{\PYZhy{}}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y}\PY{p}{:} 
+            \PY{n}{temp} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{k}{else}\PY{p}{:} 
+            \PY{n}{temp} \PY{o}{=} \PY{p}{(}\PY{n}{rvss}\PY{o}{.}\PY{n}{cdf}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{x}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{rvss}\PY{o}{.}\PY{n}{cdf}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y}\PY{p}{)}\PY{p}{)}
+        \PY{k}{return} \PY{n}{temp} 
+    
+    \PY{c+c1}{\PYZsh{} return results }
+    \PY{k}{def} \PY{n+nf}{output\PYZus{}result}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:} 
+        \PY{n}{temp2} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nsim}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{nsim}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{x}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{y}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sig}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sigg}\PY{p}{,}
+                 \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{sim\PYZus{}result}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sim\PYZus{}main}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Exact\PYZus{}result}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{exact\PYZus{}prob}\PY{p}{(}\PY{p}{)}\PY{p}{\PYZcb{}}
+        \PY{n}{temp3} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{temp2}\PY{p}{,} \PY{n}{index} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{k}{return} \PY{n}{temp3} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{67}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{nList} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{map}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n+nb}{int}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{,} \PY{p}{[}\PY{l+m+mf}{1e+4}\PY{p}{,} \PY{l+m+mf}{1e+5}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n}{xList} \PY{o}{=} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}
+\PY{n}{yList} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{.5}\PY{p}{,} \PY{l+m+mf}{1.5}\PY{p}{,} \PY{l+m+mf}{2.5}\PY{p}{,} \PY{l+m+mf}{3.5}\PY{p}{]}
+\PY{n}{sigList} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{1.5}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}
+\PY{n}{Result} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{sigList}\PY{p}{:} 
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n}{xList}\PY{p}{:} 
+        \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{yList}\PY{p}{:} 
+            \PY{k}{for} \PY{n}{m} \PY{o+ow}{in} \PY{n}{nList}\PY{p}{:}
+                \PY{n}{Prob} \PY{o}{=} \PY{n}{get\PYZus{}prob}\PY{p}{(}\PY{n}{nsim} \PY{o}{=} \PY{n}{m}\PY{p}{)}
+                \PY{n}{Prob}\PY{o}{.}\PY{n}{get\PYZus{}xy}\PY{p}{(}\PY{n}{x} \PY{o}{=} \PY{n}{j}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{n}{k}\PY{p}{,} \PY{n}{sigg} \PY{o}{=} \PY{n}{i}\PY{p}{)}
+                \PY{n}{tempp} \PY{o}{=} \PY{n}{Prob}\PY{o}{.}\PY{n}{output\PYZus{}result}\PY{p}{(}\PY{p}{)}
+                \PY{n}{Result}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{tempp}\PY{p}{)} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{68}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{Result}\PY{p}{:} 
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  0.5  0.1         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  0.5  0.1         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  1.5  0.1         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  1.5  0.1         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  2.5  0.1         0.0  2.753624e-89
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  2.5  0.1         0.0  2.753624e-89
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  3.5  0.1         0.0  2.753624e-89
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  3.5  0.1         0.0  2.753624e-89
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  0.5  0.1         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  0.5  0.1         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  1.5  0.1         0.0  7.619853e-24
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  1.5  0.1         0.0  7.619853e-24
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  2.5  0.1         0.0  7.619853e-24
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  2.5  0.1         0.0  7.619853e-24
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  3.5  0.1         0.0  7.619853e-24
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  3.5  0.1         0.0  7.619853e-24
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  0.5  0.1         1.0      0.999999
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  0.5  0.1         1.0      0.999999
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  1.5  0.1         1.0           1.0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  1.5  0.1         1.0           1.0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  2.5  0.1         1.0           1.0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  2.5  0.1         1.0           1.0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  3.5  0.1         1.0           1.0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  3.5  0.1         1.0           1.0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  0.5  0.1         1.0      0.999999
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  0.5  0.1         1.0      0.999999
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  1.5  0.1         1.0           1.0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  1.5  0.1         1.0           1.0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  2.5  0.1         1.0           1.0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  2.5  0.1         1.0           1.0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  3.5  0.1         1.0           1.0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  3.5  0.1         1.0           1.0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  0.5  1.5         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  0.5  1.5         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  1.5  1.5         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  1.5  1.5         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  2.5  1.5      0.0485      0.043421
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  2.5  1.5     0.04401      0.043421
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  3.5  1.5      0.0836      0.081396
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  3.5  1.5     0.08112      0.081396
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  0.5  1.5         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  0.5  1.5         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  1.5  1.5      0.0951      0.093837
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  1.5  1.5     0.09471      0.093837
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  2.5  1.5      0.2078      0.204702
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  2.5  1.5     0.20657      0.204702
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  3.5  1.5      0.2429      0.242677
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  3.5  1.5     0.24368      0.242677
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  0.5  1.5      0.2626      0.261117
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  0.5  1.5     0.26085      0.261117
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  1.5  1.5      0.5877      0.588852
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  1.5  1.5     0.58863      0.588852
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  2.5  1.5      0.7004      0.699717
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  2.5  1.5     0.70049      0.699717
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  3.5  1.5      0.7355      0.737692
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  3.5  1.5      0.7376      0.737692
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  0.5  1.5      0.2626      0.261117
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  0.5  1.5     0.26085      0.261117
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  1.5  1.5      0.6843      0.682689
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  1.5  1.5     0.68124      0.682689
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  2.5  1.5      0.8641      0.860998
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  2.5  1.5     0.86187      0.860998
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  3.5  1.5      0.8992      0.898973
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  3.5  1.5     0.89898      0.898973
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  0.5    4         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  0.5    4         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  1.5    4         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  1.5    4         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  2.5    4      0.0426      0.042552
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  2.5    4     0.04187      0.042552
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -2  3.5    4      0.1181      0.117751
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -2  3.5    4     0.11763      0.117751
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  0.5    4         0.0             0
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  0.5    4         0.0             0
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  1.5    4      0.0437      0.047463
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  1.5    4     0.04703      0.047463
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  2.5    4      0.1294      0.135308
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  2.5    4     0.13405      0.135308
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000 -1  3.5    4      0.2049      0.210507
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000 -1  3.5    4     0.20981      0.210507
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  0.5    4      0.0973      0.099476
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  0.5    4     0.09946      0.099476
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  1.5    4      0.2418      0.244876
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  1.5    4     0.24445      0.244876
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  2.5    4      0.3275      0.332721
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  2.5    4     0.33147      0.332721
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  1  3.5    4       0.403      0.407919
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  1  3.5    4     0.40723      0.407919
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  0.5    4      0.0973      0.099476
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  0.5    4     0.09946      0.099476
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  1.5    4      0.2913       0.29234
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  1.5    4     0.29223       0.29234
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  2.5    4      0.4193      0.425477
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  2.5    4     0.42348      0.425477
+
+
+
+    nsim  x    y  Sig  sim\_result  Exact\_result
+1  10000  2  3.5    4      0.4948      0.500676
+
+
+
+     nsim  x    y  Sig  sim\_result  Exact\_result
+1  100000  2  3.5    4     0.49924      0.500676
+
+
+
+    \end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
