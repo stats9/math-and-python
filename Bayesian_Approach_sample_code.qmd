@@ -1,0 +1,115 @@
+---
+title: using R and python for estimate mean of normal distribution with prior normal 
+format: gfm
+---
+
+
+## Using R and stan
+
+
+
+
+```{r} 
+#| echo: false
+
+
+if(!require(reticulate)){ 
+    options(download.file.method = "libcurl", download.file.extra = "-k")
+    chooseCRANmirror(ind = 1, graphics = FALSE)
+    install.packages("reticulate")
+    library(reticulate)
+}
+```
+
+
+```{r}
+
+# download require packages 
+
+if(!require(rstan)){ 
+    options(download.file.method = "libcurl", download.file.extra = "-k")
+    chooseCRANmirror(ind = 1, graphics = FALSE)
+    install.packages("rstan")
+    library(rstan)
+}
+
+
+```
+
+
+
+```{r}
+
+
+Init_time <- Sys.time()
+library(rstan) # using rstan library
+
+# in window system for using parallel computaion 
+options(mc.cores = parallel::detectCores()) 
+
+rstan_options(auto_write = TRUE) # for reduction or avoid reompliation programs
+
+data <- c(2, 4, 6, 8, 1, 3, 5, 7, 9, 10) # my sample data
+
+stan_model <- "
+data {
+  int<lower=0> N; 
+  vector[N] y; 
+}
+parameters {
+  real mu; 
+  real<lower=0> sigma;
+}
+model {
+  y ~ normal(mu, sigma);
+  mu ~ normal(0, 1);
+}
+" # define stan model, we can using seperate file for define stan model with 'stan' profix
+
+# Compile the model
+sm <- stan_model(model_code = stan_model)
+
+# Perform Bayesian inference
+fit <- sampling(sm, data = list(N = length(data), y = data), iter = 1000, chains = 4)
+
+# Print the summary of the inference results
+print(summary(fit)$summary)
+End_time <- Sys.time()
+(R_Elapse_time <- difftime(End_time, Init_time, units = 'sec'))
+
+install.packages("reticulate")
+
+```
+
+
+
+***
+***
+
+
+## Using Python and PyMC 
+
+```{python}
+import time
+start_time = time.process_time() # for get elapsed runnig time in python
+
+data = (2, 4, 6, 8, 1, 3, 5, 7, 9, 10)
+import pymc as pm
+
+# Define the model
+with pm.Model() as model:
+    # Define the prior
+    mu = pm.Normal('mu', mu=0, sigma=1)
+    
+    # Define the likelihood
+    likelihood = pm.Normal('likelihood', mu=mu, sigma=1, observed=data)
+    
+    # Perform Bayesian inference
+    trace = pm.sample(500)
+    
+# Print the summary of the inference results
+print(pm.summary(trace))
+end_time = time.process_time()
+elapsed_time = end_time - start_time
+print(f"Elapsed time: {elapsed_time} seconds")
+```
