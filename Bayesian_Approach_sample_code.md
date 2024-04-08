@@ -4,10 +4,6 @@ normal
 
 ## Using R and stan
 
-    Loading required package: reticulate
-
-    Warning: package 'reticulate' was built under R version 4.3.3
-
 ``` r
 # download require packages 
 
@@ -18,25 +14,6 @@ if(!require(rstan)){
     library(rstan)
 }
 ```
-
-    Loading required package: rstan
-
-    Warning: package 'rstan' was built under R version 4.3.3
-
-    Loading required package: StanHeaders
-
-
-    rstan version 2.32.6 (Stan version 2.32.2)
-
-    For execution on a local, multicore CPU with excess RAM we recommend calling
-    options(mc.cores = parallel::detectCores()).
-    To avoid recompilation of unchanged Stan programs, we recommend calling
-    rstan_options(auto_write = TRUE)
-    For within-chain threading using `reduce_sum()` or `map_rect()` Stan functions,
-    change `threads_per_chain` option:
-    rstan_options(threads_per_chain = 1)
-
-    Do not specify '-march=native' in 'LOCAL_CPPFLAGS' or a Makevars file
 
 ``` r
 Init_time <- Sys.time()
@@ -74,27 +51,25 @@ fit <- sampling(sm, data = list(N = length(data), y = data), iter = 1000, chains
 print(summary(fit)$summary)
 ```
 
-                mean    se_mean       sd        2.5%         25%        50%
-    mu      1.469289 0.03713798 1.050416  -0.5609274   0.7390058   1.493739
-    sigma   5.784419 0.06594914 1.899949   3.1406712   4.4807425   5.465632
-    lp__  -21.465277 0.03728052 1.006036 -24.3478841 -21.8486075 -21.170101
+                mean    se_mean       sd        2.5%        25%        50%
+    mu      1.468024 0.03581471 1.027171  -0.5256586   0.771898   1.468235
+    sigma   5.680435 0.06422639 1.817603   3.1604211   4.460527   5.391058
+    lp__  -21.415562 0.03390003 0.974238 -23.9876929 -21.811615 -21.117385
                  75%      97.5%    n_eff     Rhat
-    mu      2.201825   3.413277 799.9921 1.003924
-    sigma   6.701849  10.059925 829.9760 1.000740
-    lp__  -20.750308 -20.470743 728.2205 1.014514
+    mu      2.204107   3.414318 822.5499 1.007008
+    sigma   6.465182  10.004080 800.8867 1.005766
+    lp__  -20.721916 -20.471456 825.9049 1.002122
 
 ``` r
 End_time <- Sys.time()
 (R_Elapse_time <- difftime(End_time, Init_time, units = 'sec'))
 ```
 
-    Time difference of 40.27707 secs
+    Time difference of 40.62546 secs
 
 ``` r
 install.packages("reticulate")
 ```
-
-    Warning: package 'reticulate' is in use and will not be installed
 
 ------------------------------------------------------------------------
 
@@ -153,7 +128,7 @@ print(pm.summary(trace))
 ```
 
          mean     sd  hdi_3%  hdi_97%  ...  mcse_sd  ess_bulk  ess_tail  r_hat
-    mu  4.993  0.296   4.478    5.585  ...    0.007     904.0    1539.0    1.0
+    mu  4.996  0.301   4.475    5.565  ...    0.007     908.0    1442.0    1.0
 
     [1 rows x 9 columns]
 
@@ -163,4 +138,4 @@ elapsed_time = end_time - start_time
 print(f"Elapsed time: {elapsed_time} seconds")
 ```
 
-    Elapsed time: 2.265625 seconds
+    Elapsed time: 1.703125 seconds

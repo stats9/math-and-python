@@ -1,6 +1,8 @@
 ---
 title: using R and python for estimate mean of normal distribution with prior normal 
 format: gfm
+warning: false
+message: false
 ---
 
 
