@@ -51,25 +51,21 @@ fit <- sampling(sm, data = list(N = length(data), y = data), iter = 1000, chains
 print(summary(fit)$summary)
 ```
 
-                mean    se_mean       sd        2.5%        25%        50%
-    mu      1.468024 0.03581471 1.027171  -0.5256586   0.771898   1.468235
-    sigma   5.680435 0.06422639 1.817603   3.1604211   4.460527   5.391058
-    lp__  -21.415562 0.03390003 0.974238 -23.9876929 -21.811615 -21.117385
+                mean    se_mean       sd        2.5%         25%        50%
+    mu      1.450857 0.03756829 1.044504  -0.6658947   0.7872005   1.463015
+    sigma   5.771127 0.08045965 1.857379   3.1798358   4.5362943   5.479870
+    lp__  -21.476579 0.03919826 1.053638 -24.4801912 -21.8417866 -21.136028
                  75%      97.5%    n_eff     Rhat
-    mu      2.204107   3.414318 822.5499 1.007008
-    sigma   6.465182  10.004080 800.8867 1.005766
-    lp__  -20.721916 -20.471456 825.9049 1.002122
+    mu      2.172952   3.435238 772.9968 1.004204
+    sigma   6.608999  10.226383 532.8986 1.003919
+    lp__  -20.733573 -20.472272 722.5188 1.001032
 
 ``` r
 End_time <- Sys.time()
 (R_Elapse_time <- difftime(End_time, Init_time, units = 'sec'))
 ```
 
-    Time difference of 40.62546 secs
-
-``` r
-install.packages("reticulate")
-```
+    Time difference of 37.49169 secs
 
 ------------------------------------------------------------------------
 
@@ -97,29 +93,29 @@ with pm.Model() as model:
     likelihood = pm.Normal('likelihood', mu=mu, sigma=1, observed=data)
     
     # Perform Bayesian inference
-    trace = pm.sample(500)
+    trace = pm.sample(1000)
 ```
 
     █
 
-     |----------------------------------------| 0.00% [0/6000 00:00<? Sampling 4 chains, 0 divergences]
+     |----------------------------------------| 0.00% [0/8000 00:00<? Sampling 4 chains, 0 divergences]
 
-     |-------------------------------------| 0.02% [1/6000 00:00<00:00 Sampling 4 chains, 0 divergences]
+     |-------------------------------------| 0.01% [1/8000 00:00<00:00 Sampling 4 chains, 0 divergences]
 
-     |-------------------------------------| 0.03% [2/6000 00:00<00:00 Sampling 4 chains, 0 divergences]
+     |-------------------------------------| 0.03% [2/8000 00:00<00:00 Sampling 4 chains, 0 divergences]
 
-     |-------------------------------------| 0.05% [3/6000 00:00<00:00 Sampling 4 chains, 0 divergences]
+     |-------------------------------------| 0.04% [3/8000 00:00<00:00 Sampling 4 chains, 0 divergences]
 
-     |-------------------------------------| 0.07% [4/6000 00:00<00:00 Sampling 4 chains, 0 divergences]
+     |-------------------------------------| 0.05% [4/8000 00:00<00:00 Sampling 4 chains, 0 divergences]
 
-     |-------------------------------------| 0.08% [5/6000 00:00<00:00 Sampling 4 chains, 0 divergences]
+     |-------------------------------------| 0.06% [5/8000 00:00<00:00 Sampling 4 chains, 0 divergences]
 
-     |████████████████████████████████| 100.00% [6000/6000 00:01<00:00 Sampling 4 chains, 0 divergences]
+     |████████████████████████████████| 100.00% [8000/8000 00:02<00:00 Sampling 4 chains, 0 divergences]
     Auto-assigning NUTS sampler...
     Initializing NUTS using jitter+adapt_diag...
     Multiprocess sampling (4 chains in 4 jobs)
     NUTS: [mu]
-    Sampling 4 chains for 1_000 tune and 500 draw iterations (4_000 + 2_000 draws total) took 9 seconds.
+    Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 10 seconds.
 
 ``` python
     
@@ -128,7 +124,7 @@ print(pm.summary(trace))
 ```
 
          mean     sd  hdi_3%  hdi_97%  ...  mcse_sd  ess_bulk  ess_tail  r_hat
-    mu  4.996  0.301   4.475    5.565  ...    0.007     908.0    1442.0    1.0
+    mu  5.008  0.305   4.412     5.55  ...    0.006    1483.0    2627.0    1.0
 
     [1 rows x 9 columns]
 
@@ -138,4 +134,4 @@ elapsed_time = end_time - start_time
 print(f"Elapsed time: {elapsed_time} seconds")
 ```
 
-    Elapsed time: 1.703125 seconds
+    Elapsed time: 1.84375 seconds

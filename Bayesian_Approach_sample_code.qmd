@@ -78,9 +78,6 @@ fit <- sampling(sm, data = list(N = length(data), y = data), iter = 1000, chains
 print(summary(fit)$summary)
 End_time <- Sys.time()
 (R_Elapse_time <- difftime(End_time, Init_time, units = 'sec'))
-
-install.packages("reticulate")
-
 ```
 
 
@@ -107,7 +104,7 @@ with pm.Model() as model:
     likelihood = pm.Normal('likelihood', mu=mu, sigma=1, observed=data)
     
     # Perform Bayesian inference
-    trace = pm.sample(500)
+    trace = pm.sample(1000)
     
 # Print the summary of the inference results
 print(pm.summary(trace))
