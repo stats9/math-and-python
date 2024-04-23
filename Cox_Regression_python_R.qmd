@@ -1,7 +1,8 @@
 ---
 title: sample code for implement cox regression using python and R 
 format: gfm
-
+warning: false
+message: false
 ---
 
 
