@@ -1,0 +1,71 @@
+---
+title: sample code for implement cox regression using python and R 
+format: gfm
+
+---
+
+
+```{r}
+#| include: false
+
+
+library(reticulate)
+path <- Sys.which("python")
+path <- gsub("\\", "//", path, fixed = TRUE)
+use_python(path)
+```
+
+
+
+```{r}
+if (!require(gtsummary)) {
+    chooseCRANmirror(ind = 1, graphics = FALSE)
+    install.packages("gtsummary")
+    library(gtsummary)
+}
+
+if (!require(stargazer)) {
+    chooseCRANmirror(ind = 1, graphics = FALSE)
+    install.packages("stargazer")
+    library(stargazer)
+}
+
+library(survival)
+lung |> names()
+
+lung$status |> table()
+
+dat <- na.omit(lung)
+Y <- with(dat, Surv(time, status == 2))
+
+
+
+names(dat)
+Model <- coxph(Y ~ ph.ecog + ph.karno, data = dat)
+Model |> tbl_regression()
+
+# stargazer(Model)
+
+
+```
+
+
+
+```{python}
+import numpy as np
+import pandas as pd
+from lifelines import CoxPHFitter
+
+cph = CoxPHFitter()
+dat_py = r.dat
+dat_py.head()
+dat2 = dat_py[['time', 'status', 'ph.ecog', 'ph.karno']]
+dat2.head()
+
+dat2['status'] = dat2['status'].replace([1, 2], [0, 1])
+dat2.head()
+model_cardio_cox_ph = cph.fit(df = dat2, duration_col = 'time', event_col = 'status')
+model_cardio_cox_ph.print_summary()  # access the individual results using cph.summary
+
+
+```
