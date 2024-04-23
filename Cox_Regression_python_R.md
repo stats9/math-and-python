@@ -1,6 +1,8 @@
 # sample code for implement cox regression using python and R
 
 
+# Using R
+
 ``` r
 # if (!require(gtsummary)) {
 #     chooseCRANmirror(ind = 1, graphics = FALSE)
@@ -71,6 +73,12 @@ Model |> summary()
 # stargazer(Model)
 ```
 
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# Using Python
+
 ``` python
 import numpy as np
 import pandas as pd
@@ -126,7 +134,7 @@ model_cardio_cox_ph.print_summary()  # access the individual results using cph.s
        number of observations = 167
     number of events observed = 120
        partial log-likelihood = -500.86
-             time fit was run = 2024-04-23 00:57:21 UTC
+             time fit was run = 2024-04-23 00:59:11 UTC
 
     ---
                coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%

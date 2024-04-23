@@ -18,6 +18,10 @@ use_python(path)
 
 
 
+
+# Using R
+
+
 ```{r}
 # if (!require(gtsummary)) {
 #     chooseCRANmirror(ind = 1, graphics = FALSE)
@@ -51,6 +55,12 @@ Model |> summary()
 
 ```
 
+
+
+***
+***
+
+# Using Python 
 
 
 ```{python}
