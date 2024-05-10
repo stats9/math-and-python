@@ -2,11 +2,12 @@
 
 
 - [Problem II](#problem-ii)
-- [R programming Using method I](#r-programming-using-method-i)
-- [R programming Method 3](#r-programming-method-3)
+  - [Using Python](#using-python)
+  - [R programming Using method I](#r-programming-using-method-i)
+  - [R programming Method 3](#r-programming-method-3)
 - [Problem III](#problem-iii)
 
-## Problem II
+# Problem II
 
 $$
 \begin{aligned}
@@ -16,6 +17,12 @@ $$
 & \text{let}~~ x_1 ~\text{is missing, We want to use the EM algorithm for estimation } \bigl(\beta, \tau_1, \dots, \tau_n\bigr)~ 
 \end{aligned}
 $$
+
+<br>
+<hr>
+<hr>
+
+## Using Python
 
 ``` python
 import numpy as np 
@@ -305,7 +312,7 @@ Em_algorithm(t0 = t0, sampx = x, sampy = y, tolerance = 1e-9, num = 1e+4)
 
 
 
-## Problem III
+# Problem III
 
 The data used for the example is called faithful implemented in R. It
 contains waiting time between eruptions and the duration of the eruption
