@@ -1,13 +1,18 @@
 # EM algorithm Template Code II
 
 
+- [Problem II](#problem-ii)
+- [R programming Using method I](#r-programming-using-method-i)
+- [R programming Method 3](#r-programming-method-3)
+- [Problem III](#problem-iii)
+
 ## Problem II
 
 $$
 \begin{aligned}
 & X_1, X_2, \dots, X_n \overset{\text{iid}}{\sim} \text{Pois}(\tau_i), \\
 & Y_1, Y_2, \dots, Y_n \overset{\text{iid}}{\sim} \text{Pois}(\beta \tau_i), \\
-& \text{Dataset}: \biggl\{(x_i, y_i) \bigg | i = 1, 2, \dots, n\biggr\}, \\
+& \text{Dataset}: \biggl[(x_i, y_i) \bigg | i = 1, 2, \dots, n\biggr], \\
 & \text{let}~~ x_1 ~\text{is missing, We want to use the EM algorithm for estimation } \bigl(\beta, \tau_1, \dots, \tau_n\bigr)~ 
 \end{aligned}
 $$
