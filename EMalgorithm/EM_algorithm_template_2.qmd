@@ -1,0 +1,245 @@
+---
+title: EM algorithm Template Code II
+format: gfm 
+warning: false 
+fig-height: 9
+fig-width: 9
+---
+
+
+
+## Problem II 
+
+$$
+\begin{aligned}
+& X_1, X_2, \dots, X_n \overset{\text{iid}}{\sim} \text{Pois}(\tau_i), \\
+& Y_1, Y_2, \dots, Y_n \overset{\text{iid}}{\sim} \text{Pois}(\beta \tau_i), \\
+& \text{Dataset}: \biggl\{(x_i, y_i) \bigg | i = 1, 2, \dots, n\biggr\}, \\
+& \text{let}~~ x_1 ~\text{is missing, We want to use the EM algorithm for estimation } \bigl(\beta, \tau_1, \dots, \tau_n\bigr)~ 
+\end{aligned}
+$$
+
+
+```{r}
+#| include: false
+
+library (reticulate)
+path <- Sys.which("python")
+path <- gsub("\\", "//", path, fixed = TRUE)
+use_python(path)
+```
+
+
+
+```{python}
+import numpy as np 
+import pandas as pd 
+from scipy import stats 
+
+def Gen_data(n, beta, Tau, seed = 1234): 
+    x = stats.poisson.rvs(size = n, mu = Tau, random_state = seed)
+    y = stats.poisson.rvs(size = n, mu = beta * Tau, random_state = seed)
+    return pd.DataFrame({'x': x, 'y': y})
+
+Tau = np.array([1, 1.5, 2, 3, 4, 5, 0.5, 1, 2, 1])
+dat = Gen_data(10, 2, Tau)
+dat
+xx = dat['x'].values
+yy = dat['y'].values
+xx = xx.astype(float)
+xx[0] = np.nan
+xx
+
+def EM_2(tau_init, xData, yData, tol = 1e-7, numIter = int(1e+3)): 
+    # set Initial values    
+    k = 0
+    n = len(xData)
+    tauk = tau_init
+    tauveck = []
+    betak = yData.sum() / (np.nansum(xData) + tauk)
+    for j in range(n): 
+        if j == 0: 
+            continue
+        temp = (xData[j] + yData[j]) / (betak + 1)
+        tauveck.append(temp) 
+    listResultk = np.hstack([[betak, tauk], tauveck])
+    while True: 
+        k += 1
+        ## Expectaiton Step
+        xData[0] = tauk
+
+        ## Maximization Step 
+        betakplus1 = yData.sum() / xData.sum()
+        taukplus1 = (tauk + yData[0]) / (betakplus1 + 1)
+        tauveckplus1 = list()
+        for j in range(n): 
+            if j == 0: 
+                continue
+            temp = (xData[j] + yData[j]) / (betakplus1 + 1)
+            tauveckplus1.append(temp) 
+        listResultkplu1 = np.hstack([[betakplus1, taukplus1], tauveckplus1])
+        temp2 = np.abs(listResultkplu1 - listResultk)
+        if (np.all(temp2 < tol) or k >= numIter): 
+            final_result = {'Num_Iter': k, 
+            'betahat': betakplus1, 
+            'tauhat': list(np.hstack([taukplus1, tauveckplus1]))}
+            break 
+        listResultk = listResultkplu1.copy() 
+        tauk = taukplus1
+    return final_result        
+init_tau = 10
+EM_2(tau_init = init_tau, xData = xx, yData = yy, tol = 1e-7, numIter = int(1e+3))
+            
+```
+
+
+
+***
+***
+***
+
+
+## R programming Using method I 
+
+
+```{r}
+# define a function for generate data 
+Gen_data <- function(n, beta, Tau, seed = 1234) {
+    set.seed(seed)
+    x <- rpois(n, lambda = Tau)
+    y <- rpois(n, lambda = beta * Tau)
+    return(data.frame(x = x, y = y))
+}
+
+Tau <- c(1, 1.5, 2, 3, 4, 5, 0.5, 1, 2, 1)
+dat <- Gen_data(10, 2, Tau)
+xx <- dat$x
+yy <- dat$y
+xx[1] <- NA
+
+EM_2 <- function(tau_init, xData, yData, tol = 1e-7, numIter = 1e+3) {
+    # set initialize
+    k <- 0
+    n <- length(xData)
+    tauk <- tau_init
+    tauveck <- c()
+    betak <- sum(yData, na.rm = TRUE) / (sum(xData, na.rm = TRUE) + tauk)
+    for (j in 2:n) {
+        temp <- (xData[j] + yData[j]) / (betak + 1)
+        tauveck <- c(tauveck, temp)
+    }
+  # define vector of results for intial step 
+  listResultk <- c(betak, tauk, tauveck)
+
+    while (TRUE) {
+        # Expetation Step 
+        k <- k + 1
+        xData[1] <- tauk
+
+        # Maximization Step 
+        betakplus1 <- sum(yData) / sum(xData, na.rm = TRUE)
+        taukplus1 <- (tauk + yData[1]) / (betakplus1 + 1)
+        tauveckplus1 <- c()
+        for (j in 2:n) {
+            temp <- (xData[j] + yData[j]) / (betakplus1 + 1)
+            tauveckplus1 <- c(tauveckplus1, temp)
+        }
+
+        # define a vector for gather results 
+        listResultkplu1 <- c(betakplus1, taukplus1, tauveckplus1)
+        # check condition for stop algorithm 
+        temp2 <- abs(listResultkplu1 - listResultk)
+        if (all(temp2 < tol) || k >= numIter) {
+            final_result <- list('Num_Iter' = k, 'betahat' = betakplus1, 'tauhat' = c(taukplus1, tauveckplus1))
+            break
+        }
+        listResultk <- listResultkplu1
+        tauk <- taukplus1
+    }
+
+    # return results
+    return(final_result)
+}
+
+# check function 
+init_tau <- 10
+EM_2(tau_init = init_tau, xData = xx, yData = yy, tol = 1e-7, numIter = 1e+3)
+
+```
+
+
+
+***
+***
+***
+
+
+## R programming Method 3
+
+```{r}
+
+set.seed(200)
+cr_data <- function(size = 100, tau, beta) {
+    samp1 <- rpois(size, lambda = tau)
+    samp2 <- rpois(size, lambda = tau * beta)
+    return (data.frame(x = samp1, y = samp2))
+}
+
+n <- 100
+T <- sample(1:100, size = n, replace = TRUE)
+
+dataa <- cr_data(size = n, tau = T, beta = 5)
+x <- dataa[['x']]
+y <- dataa[['y']]
+x[1] <- NA
+t0 = 25; sampx = x; sampy = y; tolerance = 1e-9; num = 1e+4
+Em_algorithm <- function(t0 = 25, sampx = x, sampy = y, tolerance = 1e-9, num = 1e+4) {
+    k <- 0
+    n <- length(sampx)
+    tk <- t0
+    tvec <- numeric((n-1))
+    bk <- sum(sampy) / (sum(sampx, na.rm = TRUE) + tk)
+    for (j in 2:n) {
+        res1 <- (sampx[j] + sampy[j]) / (bk + 1)
+        tvec[j-1] <- res1
+    }
+
+    tempresult_k <- c(bk, tk, tvec)
+    Tempp <- TRUE
+    while (Tempp) {
+        # Expetation Step 
+        k <- k + 1
+        sampx[1] <- tk
+
+        # Maximization Step 
+        bkp1 <- sum(sampy) / sum(sampx)
+        tkp1 <- (tk + sampy[1]) / (bkp1 + 1)
+        tvec <- numeric(n-1)
+        for (j in 2:n) {
+            ress <- (sampy[j] + sampx[j]) / (bkp1 + 1)
+            tvec[j-1] <- ress
+        }
+
+        # define a vector for gather results 
+        tempresult_kp1 <- c(bkp1, tkp1, tvec)
+        
+        ress2 <- abs(tempresult_k - tempresult_kp1)
+        if (all(ress2 < tolerance) || k >= num) {
+            FResult <- list('Number_Iteration' = k, 'betahat' = bkp1, 'That' = c(tkp1, tvec) |> 
+            setNames(paste0("tauHat", 1:100)))
+            Tempp = !Tempp
+        }
+        tempresult_k <- tempresult_kp1
+        tk <- tkp1
+    }
+
+    # return results
+    return(FResult)
+}
+
+# check function 
+t0 <- 25
+Em_algorithm(t0 = t0, sampx = x, sampy = y, tolerance = 1e-9, num = 1e+4)
+
+
+```

@@ -1,0 +1,307 @@
+{
+    "workbench.colorTheme": "Theme Darker",
+    "jupyter.kernels.trusted": [
+        "c:\\ProgramData\\jupyter\\kernels\\ir\\kernel.json"
+    ],
+    "python.defaultInterpreterPath": "C:/Users/habib/AppData/Local/Programs/Python/Python311/python.exe",
+    "aws.suppressPrompts": {
+        "codeWhispererNewWelcomeMessage": true,
+        "codeWhispererConnectionExpired": true
+    },
+    "editor.minimap.enabled": false,
+    "git.autofetch": true,
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "editor.accessibilitySupport": "off",
+    "latex-workshop.latex.build.forceRecipeUsage": false,
+    "git.openRepositoryInParentFolders": "always",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xindy", 
+            "command": "texindy",
+            "args": [
+                "%DOCFILE%.idx"
+            ]
+        },
+        {
+            "name": "xelatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-xelatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%.tex"
+            ],
+            "env": {}
+        },
+        {
+            "name": "xindy-glossaries", 
+            "command": "xindy", 
+            "args":[
+                "-L", "persian-variant1", 
+                "-C", "utf8", 
+                "-I", "xindy", 
+                "-M", "%DOCFILE%.xdy", 
+                "-t", "%DOCFILE%.glg", 
+                "-o", "%DOCFILE%.gls", 
+                "%DOCFILE%.glo"
+            ]
+        }, 
+        {
+            "name": "xindy-bibliography", 
+            "command": "xindy", 
+            "args":[
+                "-L", "persian-variant1", 
+                "-C", "utf8", 
+                "-I", "xindy", 
+                "-M", "%DOCFILE%.xdy", 
+                "-t", "%DOCFILE%.blg", 
+                "-o", "%DOCFILE%.bls", 
+                "%DOCFILE%.blo"
+            ]
+        }, 
+        {
+            "name": "xindy-acronyms", 
+            "command": "xindy", 
+            "args": [
+                "-L", "english", 
+                "-C", "utf8", 
+                "-I", "xindy", 
+                "-M", "%DOCFILE%.xdy", 
+                "-t", "%DOCFILE%.alg", 
+                "-o", "%DOCFILE%.acr", 
+                "%DOCFILE%.acn"
+            ]
+        },
+        {
+            "name": "lualatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-xelatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk_rconly",
+            "command": "latexmk",
+            "args": [
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "rnw2tex",
+            "command": "Rscript",
+            "args": [
+                "-e",
+                "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
+            ],
+            "env": {}
+        },
+        {
+            "name": "jnw2tex",
+            "command": "julia",
+            "args": [
+                "-e",
+                "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"
+            ],
+            "env": {}
+        },
+        {
+            "name": "jnw2texminted",
+            "command": "julia",
+            "args": [
+                "-e",
+                "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
+            ],
+            "env": {}
+        },
+        {
+            "name": "pnw2tex",
+            "command": "pweave",
+            "args": [
+                "-f",
+                "tex",
+                "%DOC_EXT%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "pnw2texminted",
+            "command": "pweave",
+            "args": [
+                "-f",
+                "texminted",
+                "%DOC_EXT%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "tectonic",
+            "command": "tectonic",
+            "args": [
+                "--synctex",
+                "--keep-logs",
+                "%DOC%.tex"
+            ],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk (xelatex)",
+            "tools": [
+                "xelatexmk",
+                "xindy",
+                "xindy-glossaries", 
+                "xindy-bibliography", 
+                "xindy-acronyms", 
+                "xelatexmk"
+            ]
+        },
+        {
+            "name": "latexmk (latexmkrc)",
+            "tools": [
+                "latexmk_rconly"
+            ]
+        },
+        {
+            "name": "latexmk (lualatex)",
+            "tools": [
+                "lualatexmk"
+            ]
+        },
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "pdflatex -> bibtex -> pdflatex * 2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "Compile Rnw files",
+            "tools": [
+                "rnw2tex",
+                "latexmk"
+            ]
+        },
+        {
+            "name": "Compile Jnw files",
+            "tools": [
+                "jnw2tex",
+                "latexmk"
+            ]
+        },
+        {
+            "name": "Compile Pnw files",
+            "tools": [
+                "pnw2tex",
+                "latexmk"
+            ]
+        },
+        {
+            "name": "tectonic",
+            "tools": [
+                "tectonic"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "first",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "terminal.integrated.fontSize": 14,
+    "workbench.editor.empty.hint": "hidden",
+    "gitlens.views.searchAndCompare.avatars": false,
+    "editor.fontSize": 15,
+    "security.workspace.trust.untrustedFiles": "open",
+    "code-runner.runInTerminal": true,
+    "terminal.integrated.profiles.windows": {
+        "pwsh" :{
+            "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+        },
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "bash (MSYS2)": {
+            "path": "C:\\msys64\\usr\\bin\\bash.exe",
+            "args": [
+                "--login",
+                "-i"
+            ]
+        },
+        "Windows PowerShell": {
+            "path": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        },
+        "Ubuntu (WSL)": {
+            "path": "C:\\WINDOWS\\System32\\wsl.exe",
+            "args": [
+                "-d",
+                "Ubuntu"
+            ]
+        }
+    },
+    "notebook.lineNumbers": "on",
+    "notebook.output.textLineLimit": 100,
+    "vscodeGoogleTranslate.preferredLanguage": "English",
+    "explorer.confirmDelete": false, 
+    "terminal.integrated.shell.windows": "pwsh.exe"
+}{
+}

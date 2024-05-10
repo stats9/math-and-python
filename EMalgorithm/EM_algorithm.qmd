@@ -1,5 +1,5 @@
 ---
-title: EM algorithm Template Code
+title: EM algorithm Template Code I
 format: gfm 
 warning: false 
 fig-height: 9
@@ -42,7 +42,6 @@ x = stats.norm.rvs(size = n, loc = 10, scale = 2,
 Missing = np.random.choice(np.arange(0, n), size = m) 
 x[Missing] = np.nan
 
-
 def EM(dat, mu0, sd0, tol = 1e-6, iter = 2e+3): 
     x_impute = dat.copy()
     k = 0
@@ -62,14 +61,10 @@ def EM(dat, mu0, sd0, tol = 1e-6, iter = 2e+3):
             break
     return dict(Mean_estimate = muk, STD_esimate = sdd, Num_Iteration = k + 1)
 
-
-
 # define Initial values
 mu0 = 8
 sd0 = 1
-
 result = EM(dat = x, mu0 = mu0, sd0 = sd0)
-    
 print(f"""
       Estimate of mu: {result['Mean_estimate'][-1]}, \n 
       Estimate of mu: {result['STD_esimate'][-1]}, \n
