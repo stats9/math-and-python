@@ -4,6 +4,7 @@ format: gfm
 warning: false 
 fig-height: 9
 fig-width: 9
+tbl-cap-location: top
 ---
 
 
@@ -243,3 +244,186 @@ Em_algorithm(t0 = t0, sampx = x, sampy = y, tolerance = 1e-9, num = 1e+4)
 
 
 ```
+
+
+
+
+***
+***
+***
+***
+
+
+
+\newpage 
+
+## Problem III 
+
+The data used for the example is called faithful implemented in R. It contains
+waiting time between eruptions and the duration of the eruption for the Old
+Faithful geyser in Yellowstone National Park, Wyoming, USA. From this data,
+we use the waiting time part. The histogram of the waifing time resembles the
+mixture Gaussian distribution; short and long waiting times. We set indicators
+which mixture component each observation belongs to as a missing data and the
+EM algorithm will find the proportion of observations belonging to each nor-
+mal distribution along with other unknown parameters for means and variances.
+
+$$
+f_{\text{W}}(w) = p \times \frac{1}{\sigma_1} \phi\left(\frac{w - \mu_1}{\sigma_1}\right) + (1-p) \times \frac{1}{\sigma_2} \phi\left(\frac{w - \mu_2}{\sigma_2}\right). 
+$$
+
+
+<br> 
+
+
+And, our unknown parameters are $p, \mu_1, \mu_2, \sigma_1^2, \sigma_2^2$ where $\mu_1$ and $\sigma_1^2$ indicate
+the mean and the variance from the normal distribution with the shorter waiting time and $\mu_2$ and $\sigma_2^2$ 
+represent the mean and the variance from the longer
+waiting time. Our $p$ represents the proportion an observation comes from the
+normal distribution with the shorter waiting time. We let $\theta = \biggl(p, \mu_1, \mu_2, \sigma_1^2, \sigma_2^2\biggr)$.
+
+<br> 
+
+
+The indicator variable as a missing data is
+
+
+
+
+$$
+Y_i = 
+\begin{cases}1 &  W_i ~~\text{belongs to distribution of shorter waiting times}, \\
+0 & W_i~~ \text{belongs to distribution of longer waiting times}
+\end{cases} 
+$$
+
+
+
+
+where $Y_i$ is Bernoulli distribued with parameter $p$.
+
+<br> 
+
+Therefare the likelihood expression for the complete-data is given by:
+
+
+
+$$
+L_n(\theta|W, Y) = \prod_{i=1}^{n} p^{p_i} \times (1-p)^{1-Y_i} \times \frac{1}{\sigma_1^{Y_i}} \times \phi\left(\frac{W_i - \mu_1}{\sigma^{Y_i}}\right)^{Y_i} \times 
+\frac{1}{\sigma_2^{1- Y_i}}\times 
+\phi\left( \frac{W_i - \mu_2}{\sigma_2} \right)^{1-Y_i} 
+$$
+
+
+
+And, the corresponding log-likelihood function for the density from the data
+faithful becomes:
+
+
+
+$$
+\begin{aligned} 
+\ell_n(\theta|W, Y) & = \sum_{i = 1}^n Y_i times \log(p) + \sum_{i = 1}^n (1 - Y_i) \times \log(1-p) \\
+& - \frac{1}{2} \sum_{i = 1}^n Y_i \times \log(2\pi \sigma_1^2) - \frac{1}{2\sigma_1^2}\sum_{i = 1}^n Y_i\times (W_i-\mu_1)^2 \\
+& - \frac{1}{2} \sum_{i = 1}^n (1- Y_i) \times \log(2\pi \sigma_2^2) - \frac{1}{2\sigma_2^2}\sum_{i =1}^n (1-Y_i) \times (W_i - \mu_2)^2. 
+\end{aligned}
+$$
+
+
+From now, we apply the EM algorithm and find the expectation of Y_i, Since 
+the conditional distribution of Y_i given W is 
+
+
+$$
+Y_i \bigg | W_i, \theta^{(k)} \sim \text{Bin}(1, p_i^{(k)})
+$$
+
+
+
+With 
+
+
+$$
+p_i^{(k)} = \frac{p^{(k)} \times \frac{1}{\sigma_1^{(k)}\phi\left(\frac{w_i - \mu_1^{(k)}}{\sigma_1^{(k)}}\right)}}{p^{(k)} \times \frac{1}{\sigma_1^{(k)}\phi\left(\frac{w_i - \mu_1^{(k)}}{\sigma_1^{(k)}}\right)} + (1-p^{(k)}) \times \frac{1}{\sigma_2^{(k)}\phi\left(\frac{w_i - \mu_2^{(k)}}{\sigma_2^{(k)}}\right)}}
+$$
+
+
+where $p^{(K)}$ is a set of known or estimated parameters at kth step. $p^{(0)}$ is an initial
+values. Thus, by the property of the Binomial distribution, the conditional mean is 
+
+
+$$
+\mathcal{E}(Y_i \bigg | W_i, \theta^{(k)}) = p_i^{(k)}. 
+$$
+
+
+By substituting $p^{(k)}$ for $Y_i$, We obtain the expectaion function as 
+
+
+
+$$
+\begin{aligned} 
+Q\biggl(\theta \bigg | \theta^{(k)}\biggr) = & \sum_{i = 1}^n p_i^{(k)} \times \log(p) + \sum_{i = 1}^n ( 1- p_i^{(k)}) \times \log(1 - p)\\ 
+& -\frac{1}{2} \sum_{i = 1}^n p_i^{(k)} \times \log(2\pi \sigma_1^2) - \frac{1}{2\sigma_1^2} \sum_{i = 1}^n p_i^{(k)} \times (W_i - \mu_1)^2\\
+& - \frac{1}{2}\sum_{i = 1}^n (1-p_i^{(k)}) \times \log(2\pi\sigma_2^2)-\frac{1}{2\sigma_2^2}\sum_{i = 1}^n (1-pi_i^{(k)}) \times (W_i - \mu_2)^2
+\end{aligned}
+$$
+
+
+
+
+In the maximization step, setting the first derivatives of $Q\left(\theta\bigg | \theta^{(k)}\right)$ with respect to each parameter equal to zero results in following equations for each parameter.
+
+
+
+$$
+\begin{aligned}
+& p^{(k+1)} = \frac{1}{n} \sum_{i=1}^{n} p_i^{(k)}, \\ 
+& \mu_1^{(k+1)} = \frac{\sum_{i=1}^{n} p_i^{(k)} W_i}{\sum_{i=1}^{n} p_i^{(k)}}, \\ 
+& \mu_2^{(k+1)} = \frac{\sum_{i=1}^{n}(1 - p_i^{(k)}) W_i}{\sum_{i=1}^{n}(1 - p_i^{(k)})}, \\
+& (\sigma_1^2)^{(k+1)} = \frac{\sum_{i=1}^{n}p_i^{(k)} (W_i - \mu_1^{(k+1)})^2}{\sum_{i=1}^{n}p_i^{(k)}},\\
+& (\sigma_2^2)^{(k+1)} = \frac{\sum_{i=1}^{n}(1-p_i^{(k)}) (W_i - \mu_2^{(k+1)})^2}{\sum_{i=1}^{n}(1-p_i^{(k)})},
+\end{aligned}
+$$
+
+
+
+
+```{r}
+#| echo: false
+#| fig-cap: Histogram of Waiting
+#| fig-cap-location: margin
+
+data(faithful)
+hist(faithful[['waiting']], col = "gray", main = "")
+```
+
+
+
+
+
+After the EM algorithm, our estimates for unknown parameters are described
+in the Table 1. In addition, Table2 shows the results form the combination of
+EM algorithm and Bootstrap.
+
+
+<center> 
+
+| $p$ | $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
+|:--------:|:--------:|:--------:|:--------:|:--------:|
+| $0.35$  | $54.22$ | $79.91$ | $29.86$ | $35.98$ | 
+: Table.1 &nbsp; Estimate Using the combination of EM Algorithm {tbl-colwidths="[2,25]"}
+
+</center> 
+
+<br><hr>
+
+
+<center> 
+
+| $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
+|:--------:|:--------:|:--------:|:--------:|
+| $54.26$  | $79.88$ | $29.74$ | $36.03$ 
+: Table.2 &nbsp; Estimate Using the combination of EM Algorithm and Bootstrap {tbl-colwidths="[2,25]"}
+
+</center> 
