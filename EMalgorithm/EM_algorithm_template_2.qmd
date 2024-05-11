@@ -412,6 +412,48 @@ data(faithful)
 hist(faithful[['waiting']], col = "gray", main = "")
 ```
 
+```{r}
+#| include: false
+em_algorithm <- function(d, val0) {
+        # (E-Step)
+        E <- val0[1] * dnorm(d, val0[2], sqrt(val0[4])) / 
+            (val0[1] * dnorm(d, val0[2], sqrt(val0[4])) + (1 - val0[1]) * 
+            dnorm(d, val0[3], sqrt(val0[5])))
+    
+        # Maximization step 
+        valk <- numeric(5)
+        valk[1] <- mean(E)
+        valk[2] <- sum(E * d) / sum(E) 
+        valk[3] <- sum((1-E) * d) / (sum(1-E))
+        valk[4] <- sum(E * (d - valk[2]) ** 2) / sum(E)
+        valk[5] <- sum((1-E) * (d - valk[3]) ** 2) / sum(1 - E)
+        return(valk)
+}
+
+
+Get_EM <- function(Data, s0, tolerance = 1e-4) {
+    I <- function() {
+        k <<- k + 1
+    }
+    Temp <- em_algorithm(Data, s0)
+    if (all(abs(Temp - s0) < tolerance)) {
+        names(Temp) <- c("Pr", "Mu:1", "Mu:2", "Variance:1", "Variance:2")
+        return(list(Iter = k, Result = Temp))
+    } else {
+        I()
+        s0 <- Temp 
+        Get_EM(Data, s0)
+    }
+
+}
+
+
+x <- faithful$waiting
+s0 <- c(0.5, 40, 90, 16, 16)
+k <- 0
+result <- Get_EM(Data = x, s0 = s0)
+ress <- result$Result
+```
 
 
 
@@ -425,7 +467,7 @@ EM algorithm and Bootstrap.
 
 | $p$ | $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
 |:--------:|:--------:|:--------:|:--------:|:--------:|
-| $0.35$  | $54.22$ | $79.91$ | $29.86$ | $35.98$ | 
+| $`r ress[1]`$  | $`r ress[2]`$ | $`r ress[3]`$ | $`r ress[4]`$ | $`r ress[5]`$ | 
 : Table.1 &nbsp; Estimate Using the combination of EM Algorithm {tbl-colwidths="[2,25]"}
 
 </center> 
@@ -504,7 +546,7 @@ em_algorithm <- function(d, val0) {
             (val0[1] * dnorm(d, val0[2], sqrt(val0[4])) + (1 - val0[1]) * 
             dnorm(d, val0[3], sqrt(val0[5])))
     
-        # Maximization step 
+        # (M-Step) 
         valk <- numeric(5)
         valk[1] <- mean(E)
         valk[2] <- sum(E * d) / sum(E) 

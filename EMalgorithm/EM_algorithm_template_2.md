@@ -431,9 +431,9 @@ combination of EM algorithm and Bootstrap.
 
 <center>
 
-|  $p$   | $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
-|:------:|:-------:|:-------:|:------------:|:------------:|
-| $0.35$ | $54.22$ | $79.91$ |   $29.86$    |   $35.98$    |
+|     $p$     |   $\mu_1$    |   $\mu_2$    | $\sigma_1^2$ | $\sigma_2^2$ |
+|:-----------:|:------------:|:------------:|:------------:|:------------:|
+| $0.3608856$ | $54.6148403$ | $80.0910594$ | $34.4710583$ | $34.4304249$ |
 
 Table.1   Estimate Using the combination of EM Algorithm
 
@@ -515,7 +515,7 @@ em_algorithm <- function(d, val0) {
             (val0[1] * dnorm(d, val0[2], sqrt(val0[4])) + (1 - val0[1]) * 
             dnorm(d, val0[3], sqrt(val0[5])))
     
-        # Maximization step 
+        # (M-Step) 
         valk <- numeric(5)
         valk[1] <- mean(E)
         valk[2] <- sum(E * d) / sum(E) 
