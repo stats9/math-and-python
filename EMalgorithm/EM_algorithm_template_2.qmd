@@ -443,11 +443,12 @@ EM algorithm and Bootstrap.
 </center> 
 
 
+***
+***
+***
 
 
-### Using R programm
-
-#### Method I
+## Using R programm Method I
 
 ```{r}
 dat <- faithful[['waiting']]
@@ -488,7 +489,13 @@ EM(dat, init_values)
 
 
 
-#### Method II 
+***
+***
+***
+
+
+
+## Using R programm Method II
 
 ```{r}
 em_algorithm <- function(d, val0) {
