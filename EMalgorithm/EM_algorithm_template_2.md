@@ -442,9 +442,9 @@ Table.1   Estimate Using the combination of EM Algorithm
 <hr>
 <center>
 
-| $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
-|:-------:|:-------:|:------------:|:------------:|
-| $54.26$ | $79.88$ |   $29.74$    |   $36.03$    |
+|   $\mu_1$    |   $\mu_2$    | $\sigma_1^2$ | $\sigma_2^2$ |
+|:------------:|:------------:|:------------:|:------------:|
+| $54.6300598$ | $34.4104298$ | $80.0568343$ | $34.173397$  |
 
 Table.2   Estimate Using the combination of EM Algorithm and Bootstrap
 
@@ -459,6 +459,8 @@ Table.2   Estimate Using the combination of EM Algorithm and Bootstrap
 ## R programm Method I
 
 ``` r
+rm(list = ls())
+
 dat <- faithful[['waiting']]
 
 init_values <- c(0.5, 40, 90, 16, 16)
@@ -547,8 +549,8 @@ res |>
     # A tibble: 2 × 3
          ID  Mean Variance
       <dbl> <dbl>    <dbl>
-    1     1  54.6     34.3
-    2     2  80.1     34.2
+    1     1  54.7     34.5
+    2     2  80.1     34.3
 
 ------------------------------------------------------------------------
 
@@ -559,6 +561,8 @@ res |>
 ## R programm Method II
 
 ``` r
+rm(list = ls())
+
 em_algorithm <- function(d, val0) {
         # (E-Step)
         E <- val0[1] * dnorm(d, val0[2], sqrt(val0[4])) / 
@@ -617,7 +621,7 @@ s1 <- result[4]
 s2 <- result[5]
 
 N1 <- round(prob * dim(faithful)[1], 0)
-N2 <- dim(faithful)[1] - n1 
+N2 <- dim(faithful)[1] - N1
 library(plyr)
 Boot_result <- raply(1e+3, {
                 pr <- runif(1)
@@ -649,12 +653,12 @@ head(Boot_result)
 ```
 
           MEAN Variance INDEX
-    1 54.82310 28.34000     1
-    2 79.24172 31.21076     2
-    3 55.15793 34.08144     1
-    4 80.11320 41.06238     2
-    5 80.23217 32.95595     2
-    6 54.64850 32.85265     1
+    1 55.02490 39.32665     1
+    2 54.69535 29.82158     1
+    3 79.85845 45.71665     2
+    4 55.16395 22.70279     1
+    5 80.54149 31.52718     2
+    6 80.31668 29.70273     2
 
 ``` r
 dat <- Boot_result[, c("MEAN", "Variance")]
@@ -663,5 +667,5 @@ aggregate(dat, by = list(Boot_result$INDEX), FUN = mean)
 ```
 
       Group.1     MEAN Variance
-    1       1 54.63863 34.04801
-    2       2 80.09894 34.52672
+    1       1 54.61540 34.39032
+    2       2 80.07389 34.48049

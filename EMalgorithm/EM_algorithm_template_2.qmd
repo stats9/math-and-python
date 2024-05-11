@@ -461,45 +461,44 @@ ress <- result$Result
 ## BootStrap section 
 
 
-P <- EM(dat, init_values) |> 
-        _$Result
 
-pr1 <- P[1] 
-pr2 <- P[2]
-pr3 <- P[3]
-pr4 <- P[4]
-pr5 <- P[5]
+result <- Get_EM(Data = x, s0 = s0)$Res 
 
-n1 <- (pr1 * nrow(faithful)) |> floor()
-n2 <- nrow(faithful) - n1 
-boot_fun <- function(B) {
-    f1 <- function() {
-        u <- runif(1) 
-        if (u <= pr1) {
-            b <- rnorm(n1, pr2, sqrt(pr4))
-            bmean <- mean(b) 
-            bvar <- var(b)
-            ID <- 1
-        } else {
-            b <- rnorm(n2, pr3, sqrt(pr5))
-            bmean <- mean(b) 
-            bvar <- var(b)
-            ID <- 2
-        }
-        return(c(bmean, bvar, ID))
-    }
-    Result <- replicate(B, f1())
-    return(Result)
-}
-res <- boot_fun(1e+3) |> 
-        t() |> 
-        as.data.frame() |> 
-        setNames(c("Mean", "Variance", "ID"))
+prob <- result[1] 
+m1 <- result[2]
+m2 <- result[3]
+s1 <- result[4]
+s2 <- result[5]
 
-temp2 <- res |> 
-        dplyr :: group_by(ID) |> 
-        dplyr :: summarize(Mean = mean(Mean), Variance = mean(Variance))
+N1 <- round(prob * dim(faithful)[1], 0)
+N2 <- dim(faithful)[1] - N1
+library(plyr)
+Boot_result <- raply(1e+3, {
+                pr <- runif(1)
+                if (pr <= prob) {
+                temp <- rnorm(N1, m1, sqrt(s1))
+                c(
+                    MEAN = mean(temp), 
+                    Variance = var(temp),
+                    INDEX = 1
+                )
+            } else {
+                temp <- rnorm(N1, m2, sqrt(s2))
+            c(
+                MEAN = mean(temp), 
+                Variance = var(temp), 
+                INDEX = 2
+            )   
+            }   
+        }) |> as.data.frame()
 
+
+dim(Boot_result)
+head(Boot_result)
+dat <- Boot_result[, c("MEAN", "Variance")]
+
+temp3 <- aggregate(dat, by = list(Boot_result$INDEX), FUN = mean)
+temp2 <- temp3 |> as.vector()
 ```
 
 
@@ -526,7 +525,7 @@ EM algorithm and Bootstrap.
 
 | $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
 |:--------:|:--------:|:--------:|:--------:|
-| $`r temp2$Mean[1]`$  | $`r temp2$Variance[1]`$ | $`r temp2$Mean[2]`$ | $`r temp2$Variance[2]`$ 
+| $`r temp2$MEAN[1]`$  | $`r temp2$Variance[1]`$ | $`r temp2$MEAN[2]`$ | $`r temp2$Variance[2]`$ 
 : Table.2 &nbsp; Estimate Using the combination of EM Algorithm and Bootstrap {tbl-colwidths="[2,25]"}
 
 </center> 
@@ -540,6 +539,8 @@ EM algorithm and Bootstrap.
 ## R programm Method I
 
 ```{r}
+rm(list = ls())
+
 dat <- faithful[['waiting']]
 
 init_values <- c(0.5, 40, 90, 16, 16)
@@ -630,6 +631,8 @@ res |>
 ## R programm Method II
 
 ```{r}
+rm(list = ls())
+
 em_algorithm <- function(d, val0) {
         # (E-Step)
         E <- val0[1] * dnorm(d, val0[2], sqrt(val0[4])) / 
@@ -681,7 +684,7 @@ s1 <- result[4]
 s2 <- result[5]
 
 N1 <- round(prob * dim(faithful)[1], 0)
-N2 <- dim(faithful)[1] - n1 
+N2 <- dim(faithful)[1] - N1
 library(plyr)
 Boot_result <- raply(1e+3, {
                 pr <- runif(1)
