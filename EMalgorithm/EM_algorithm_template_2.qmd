@@ -453,6 +453,53 @@ s0 <- c(0.5, 40, 90, 16, 16)
 k <- 0
 result <- Get_EM(Data = x, s0 = s0)
 ress <- result$Result
+
+
+
+
+
+## BootStrap section 
+
+
+P <- EM(dat, init_values) |> 
+        _$Result
+
+pr1 <- P[1] 
+pr2 <- P[2]
+pr3 <- P[3]
+pr4 <- P[4]
+pr5 <- P[5]
+
+n1 <- (pr1 * nrow(faithful)) |> floor()
+n2 <- nrow(faithful) - n1 
+boot_fun <- function(B) {
+    f1 <- function() {
+        u <- runif(1) 
+        if (u <= pr1) {
+            b <- rnorm(n1, pr2, sqrt(pr4))
+            bmean <- mean(b) 
+            bvar <- var(b)
+            ID <- 1
+        } else {
+            b <- rnorm(n2, pr3, sqrt(pr5))
+            bmean <- mean(b) 
+            bvar <- var(b)
+            ID <- 2
+        }
+        return(c(bmean, bvar, ID))
+    }
+    Result <- replicate(B, f1())
+    return(Result)
+}
+res <- boot_fun(1e+3) |> 
+        t() |> 
+        as.data.frame() |> 
+        setNames(c("Mean", "Variance", "ID"))
+
+temp2 <- res |> 
+        dplyr :: group_by(ID) |> 
+        dplyr :: summarize(Mean = mean(Mean), Variance = mean(Variance))
+
 ```
 
 
@@ -479,7 +526,7 @@ EM algorithm and Bootstrap.
 
 | $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
 |:--------:|:--------:|:--------:|:--------:|
-| $54.26$  | $79.88$ | $29.74$ | $36.03$ 
+| $`r temp2$Mean[1]`$  | $`r temp2$Variance[1]`$ | $`r temp2$Mean[2]`$ | $`r temp2$Variance[2]`$ 
 : Table.2 &nbsp; Estimate Using the combination of EM Algorithm and Bootstrap {tbl-colwidths="[2,25]"}
 
 </center> 
