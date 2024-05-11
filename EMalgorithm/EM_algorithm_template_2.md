@@ -1,15 +1,15 @@
 # EM algorithm Template Code II
 
 
-- [Problem II](#problem-ii)
+- [Problem I](#problem-i)
   - [Using Python](#using-python)
   - [R programming Using method I](#r-programming-using-method-i)
   - [R programming Method II](#r-programming-method-ii)
-- [Problem III](#problem-iii)
+- [Problem II](#problem-ii)
   - [Using R programm Method I](#using-r-programm-method-i)
   - [Using R programm Method II](#using-r-programm-method-ii)
 
-# Problem II
+# Problem I
 
 $$
 \begin{aligned}
@@ -314,7 +314,7 @@ Em_algorithm(t0 = t0, sampx = x, sampy = y, tolerance = 1e-9, num = 1e+4)
 
 
 
-# Problem III
+# Problem II
 
 The data used for the example is called faithful implemented in R. It
 contains waiting time between eruptions and the duration of the eruption

@@ -11,7 +11,7 @@ tbl-cap-location: top
 
 
 
-# Problem II 
+# Problem I
 
 $$
 \begin{aligned}
@@ -271,7 +271,7 @@ Em_algorithm(t0 = t0, sampx = x, sampy = y, tolerance = 1e-9, num = 1e+4)
 
 \newpage 
 
-# Problem III 
+# Problem II
 
 The data used for the example is called faithful implemented in R. It contains
 waiting time between eruptions and the duration of the eruption for the Old
