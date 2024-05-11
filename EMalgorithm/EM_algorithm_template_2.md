@@ -6,6 +6,7 @@
   - [R programming Using method I](#r-programming-using-method-i)
   - [R programming Method 3](#r-programming-method-3)
 - [Problem III](#problem-iii)
+  - [Using R programm](#using-r-programm)
 
 # Problem II
 
@@ -447,3 +448,99 @@ Table.1   Estimate Using the combination of EM Algorithm
 Table.2   Estimate Using the combination of EM Algorithm and Bootstrap
 
 </center>
+
+### Using R programm
+
+#### Method I
+
+``` r
+dat <- faithful[['waiting']]
+
+init_values <- c(0.5, 40, 90, 16, 16)
+
+
+EM <- function(data, Initials) {
+    k <- 0
+    Sk = Initials
+    while (TRUE) {
+        # Expectation-Step (E-Step)
+        Expect <- Sk[1] * dnorm(data, Sk[2], sqrt(Sk[4])) / 
+            (Sk[1] * dnorm(data, Sk[2], sqrt(Sk[4])) + (1 - Sk[1]) * 
+            dnorm(data, Sk[3], sqrt(Sk[5])))
+    
+        # Maximization step (M-Step)
+        a1 <- mean(Expect)
+        a2 <- sum(Expect * data) / sum(Expect) 
+        a3 <- sum((1-Expect) * data) / (sum(1-Expect))
+        a4 <- sum(Expect * (data - a2) ** 2) / sum(Expect)
+        a5 <- sum((1-Expect) * (data - a3) ** 2) / sum(1 - Expect)
+        Skp1 <- c(a1, a2, a3, a4, a5)
+        temp <- abs(Sk - Skp1)
+        if(all(temp < 1e-4)) break 
+        Sk <- Skp1
+        k <- k + 1
+    }
+    names(Skp1) <- c("Prob", "mu1", "mu2", "sigma2_1", "sigma2_2")
+    list(Number_Iteration = k, Result = Skp1)
+}
+
+
+EM(dat, init_values)
+```
+
+    $Number_Iteration
+    [1] 24
+
+    $Result
+          Prob        mu1        mu2   sigma2_1   sigma2_2 
+     0.3608856 54.6148403 80.0910594 34.4710583 34.4304249 
+
+#### Method II
+
+``` r
+em_algorithm <- function(d, val0) {
+        # (E-Step)
+        E <- val0[1] * dnorm(d, val0[2], sqrt(val0[4])) / 
+            (val0[1] * dnorm(d, val0[2], sqrt(val0[4])) + (1 - val0[1]) * 
+            dnorm(d, val0[3], sqrt(val0[5])))
+    
+        # Maximization step 
+        valk <- numeric(5)
+        valk[1] <- mean(E)
+        valk[2] <- sum(E * d) / sum(E) 
+        valk[3] <- sum((1-E) * d) / (sum(1-E))
+        valk[4] <- sum(E * (d - valk[2]) ** 2) / sum(E)
+        valk[5] <- sum((1-E) * (d - valk[3]) ** 2) / sum(1 - E)
+        return(valk)
+}
+
+
+Get_EM <- function(Data, s0, tolerance = 1e-4) {
+    I <- function() {
+        k <<- k + 1
+    }
+    Temp <- em_algorithm(Data, s0)
+    if (all(abs(Temp - s0) < tolerance)) {
+        names(Temp) <- c("Pr", "Mu:1", "Mu:2", "Variance:1", "Variance:2")
+        return(list(Iter = k, Result = Temp))
+    } else {
+        I()
+        s0 <- Temp 
+        Get_EM(Data, s0)
+    }
+
+}
+
+
+x <- faithful$waiting
+s0 <- c(0.5, 40, 90, 16, 16)
+k <- 0
+Get_EM(Data = x, s0 = s0)
+```
+
+    $Iter
+    [1] 24
+
+    $Result
+            Pr       Mu:1       Mu:2 Variance:1 Variance:2 
+     0.3608856 54.6148403 80.0910594 34.4710583 34.4304249 
