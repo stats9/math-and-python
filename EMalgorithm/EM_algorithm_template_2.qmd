@@ -189,7 +189,7 @@ EM_2(tau_init = init_tau, xData = xx, yData = yy, tol = 1e-7, numIter = 1e+3)
 ***
 
 
-## R programming Method 3
+## R programming Method II
 
 ```{r}
 

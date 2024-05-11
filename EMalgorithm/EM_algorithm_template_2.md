@@ -4,7 +4,7 @@
 - [Problem II](#problem-ii)
   - [Using Python](#using-python)
   - [R programming Using method I](#r-programming-using-method-i)
-  - [R programming Method 3](#r-programming-method-3)
+  - [R programming Method II](#r-programming-method-ii)
 - [Problem III](#problem-iii)
   - [Using R programm](#using-r-programm)
 
@@ -194,7 +194,7 @@ EM_2(tau_init = init_tau, xData = xx, yData = yy, tol = 1e-7, numIter = 1e+3)
 
 ------------------------------------------------------------------------
 
-## R programming Method 3
+## R programming Method II
 
 ``` r
 set.seed(200)
