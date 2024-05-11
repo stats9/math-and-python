@@ -500,6 +500,56 @@ EM(dat, init_values)
           Prob        mu1        mu2   sigma2_1   sigma2_2 
      0.3608856 54.6148403 80.0910594 34.4710583 34.4304249 
 
+``` r
+## BootStrap section 
+
+
+P <- EM(dat, init_values) |> 
+        _$Result
+
+pr1 <- P[1] 
+pr2 <- P[2]
+pr3 <- P[3]
+pr4 <- P[4]
+pr5 <- P[5]
+
+n1 <- (pr1 * nrow(faithful)) |> floor()
+n2 <- nrow(faithful) - n1 
+boot_fun <- function(B) {
+    f1 <- function() {
+        u <- runif(1) 
+        if (u <= pr1) {
+            b <- rnorm(n1, pr2, sqrt(pr4))
+            bmean <- mean(b) 
+            bvar <- var(b)
+            ID <- 1
+        } else {
+            b <- rnorm(n2, pr3, sqrt(pr5))
+            bmean <- mean(b) 
+            bvar <- var(b)
+            ID <- 2
+        }
+        return(c(bmean, bvar, ID))
+    }
+    Result <- replicate(B, f1())
+    return(Result)
+}
+res <- boot_fun(1e+3) |> 
+        t() |> 
+        as.data.frame() |> 
+        setNames(c("Mean", "Variance", "ID"))
+
+res |> 
+    dplyr :: group_by(ID) |> 
+        dplyr :: summarize(Mean = mean(Mean), Variance = mean(Variance))
+```
+
+    # A tibble: 2 × 3
+         ID  Mean Variance
+      <dbl> <dbl>    <dbl>
+    1     1  54.6     34.3
+    2     2  80.1     34.2
+
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
@@ -533,7 +583,7 @@ Get_EM <- function(Data, s0, tolerance = 1e-4) {
     Temp <- em_algorithm(Data, s0)
     if (all(abs(Temp - s0) < tolerance)) {
         names(Temp) <- c("Pr", "Mu:1", "Mu:2", "Variance:1", "Variance:2")
-        return(list(Iter = k, Result = Temp))
+        return(list(Iter = k, Res = Temp))
     } else {
         I()
         s0 <- Temp 
@@ -552,6 +602,66 @@ Get_EM(Data = x, s0 = s0)
     $Iter
     [1] 24
 
-    $Result
+    $Res
             Pr       Mu:1       Mu:2 Variance:1 Variance:2 
      0.3608856 54.6148403 80.0910594 34.4710583 34.4304249 
+
+``` r
+## BootStrap section 
+result <- Get_EM(Data = x, s0 = s0)$Res 
+
+prob <- result[1] 
+m1 <- result[2]
+m2 <- result[3]
+s1 <- result[4]
+s2 <- result[5]
+
+N1 <- round(prob * dim(faithful)[1], 0)
+N2 <- dim(faithful)[1] - n1 
+library(plyr)
+Boot_result <- raply(1e+3, {
+                pr <- runif(1)
+                if (pr <= prob) {
+                temp <- rnorm(N1, m1, sqrt(s1))
+                c(
+                    MEAN = mean(temp), 
+                    Variance = var(temp),
+                    INDEX = 1
+                )
+            } else {
+                temp <- rnorm(N1, m2, sqrt(s2))
+            c(
+                MEAN = mean(temp), 
+                Variance = var(temp), 
+                INDEX = 2
+            )   
+            }   
+        }) |> as.data.frame()
+
+
+dim(Boot_result)
+```
+
+    [1] 1000    3
+
+``` r
+head(Boot_result)
+```
+
+          MEAN Variance INDEX
+    1 54.82310 28.34000     1
+    2 79.24172 31.21076     2
+    3 55.15793 34.08144     1
+    4 80.11320 41.06238     2
+    5 80.23217 32.95595     2
+    6 54.64850 32.85265     1
+
+``` r
+dat <- Boot_result[, c("MEAN", "Variance")]
+
+aggregate(dat, by = list(Boot_result$INDEX), FUN = mean)
+```
+
+      Group.1     MEAN Variance
+    1       1 54.63863 34.04801
+    2       2 80.09894 34.52672
