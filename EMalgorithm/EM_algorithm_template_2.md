@@ -6,8 +6,8 @@
   - [R Programming Method I](#r-programming-method-i)
   - [R Programming Method II](#r-programming-method-ii)
 - [Problem II](#problem-ii)
-  - [Using R programm Method I](#using-r-programm-method-i)
-  - [Using R programm Method II](#using-r-programm-method-ii)
+  - [R programm Method I](#r-programm-method-i)
+  - [R programm Method II](#r-programm-method-ii)
 
 # Problem I
 
@@ -456,7 +456,7 @@ Table.2   Estimate Using the combination of EM Algorithm and Bootstrap
 
 ------------------------------------------------------------------------
 
-## Using R programm Method I
+## R programm Method I
 
 ``` r
 dat <- faithful[['waiting']]
@@ -506,7 +506,7 @@ EM(dat, init_values)
 
 ------------------------------------------------------------------------
 
-## Using R programm Method II
+## R programm Method II
 
 ``` r
 em_algorithm <- function(d, val0) {
