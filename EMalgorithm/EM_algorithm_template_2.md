@@ -3,8 +3,8 @@
 
 - [Problem I](#problem-i)
   - [Using Python](#using-python)
-  - [R programming Using method I](#r-programming-using-method-i)
-  - [R programming Method II](#r-programming-method-ii)
+  - [R Programming Method I](#r-programming-method-i)
+  - [R Programming Method II](#r-programming-method-ii)
 - [Problem II](#problem-ii)
   - [Using R programm Method I](#using-r-programm-method-i)
   - [Using R programm Method II](#using-r-programm-method-ii)
@@ -113,7 +113,7 @@ EM_2(tau_init = init_tau, xData = xx, yData = yy, tol = 1e-7, numIter = int(1e+3
 
 ------------------------------------------------------------------------
 
-## R programming Using method I
+## R Programming Method I
 
 ``` r
 # define a function for generate data 
@@ -195,7 +195,7 @@ EM_2(tau_init = init_tau, xData = xx, yData = yy, tol = 1e-7, numIter = 1e+3)
 
 ------------------------------------------------------------------------
 
-## R programming Method II
+## R Programming Method II
 
 ``` r
 set.seed(200)
