@@ -441,3 +441,80 @@ EM algorithm and Bootstrap.
 : Table.2 &nbsp; Estimate Using the combination of EM Algorithm and Bootstrap {tbl-colwidths="[2,25]"}
 
 </center> 
+
+
+
+
+### Using R programm
+
+#### Method I
+
+```{r}
+dat <- faithful[['waiting']]
+
+init_values <- c(0.5, 40, 90, 16, 16)
+
+
+EM <- function(data, Initials) {
+    k <- 0
+    Sk = Initials
+    while (TRUE) {
+        # Expectation-Step (E-Step)
+        Expect <- Sk[1] * dnorm(data, Sk[2], sqrt(Sk[4])) / 
+            (Sk[1] * dnorm(data, Sk[2], sqrt(Sk[4])) + (1 - Sk[1]) * 
+            dnorm(data, Sk[3], sqrt(Sk[5])))
+    
+        # Maximization step (M-Step)
+        a1 <- mean(Expect)
+        a2 <- sum(Expect * data) / sum(Expect) 
+        a3 <- sum((1-Expect) * data) / (sum(1-Expect))
+        a4 <- sum(Expect * (data - a2) ** 2) / sum(Expect)
+        a5 <- sum((1-Expect) * (data - a3) ** 2) / sum(1 - Expect)
+        Skp1 <- c(a1, a2, a3, a4, a5)
+        temp <- abs(Sk - Skp1)
+        if(all(temp < 1e-4)) break 
+        Sk <- Skp1
+        k <- k + 1
+    }
+    names(Skp1) <- c("Prob", "mu1", "mu2", "sigma2_1", "sigma2_2")
+    list(Number_Iteration = k, Result = Skp1)
+}
+
+
+EM(dat, init_values)
+
+```
+
+
+
+
+#### Method II 
+
+```{r}
+
+x <- faithful$waiting
+
+s0 <- c(0.5, 40, 90, 16, 16)
+
+em_algorithm <- function(d, val0) {
+        # (E-Step)
+        E <- val0[1] * dnorm(d, val0[2], sqrt(val0[4])) / 
+            (val0[1] * dnorm(d, Sk[2], sqrt(val0[4])) + (1 - val0[1]) * 
+            dnorm(d, val0[3], sqrt(val0[5])))
+    
+        # Maximization step 
+        valk <- numeric(5)
+        valk[1] <- mean(Expect)
+        valk[2] <- sum(Expect * d) / sum(Expect) 
+        valk[3] <- sum((1-Expect) * d) / (sum(1-Expect))
+        valk[4] <- sum(Expect * (d - a2) ** 2) / sum(Expect)
+        valk[5] <- sum((1-Expect) * (d - a3) ** 2) / sum(1 - Expect)
+        return(valk)
+}
+
+
+}
+
+EM(dat, init_values)
+```
+
