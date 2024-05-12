@@ -1,4 +1,4 @@
-# EM algorithm Template Code
+# EM algorithm Template Code I
 
 
 ## Suppose we have a sample of 1000 from a normal distribution with a mean of 10 and a standard deviation of 2, and 100 of the samples are considered missing data. Now we want to estimate distribution parameters using EM algorithm.
@@ -20,7 +20,6 @@ x = stats.norm.rvs(size = n, loc = 10, scale = 2,
 Missing = np.random.choice(np.arange(0, n), size = m) 
 x[Missing] = np.nan
 
-
 def EM(dat, mu0, sd0, tol = 1e-6, iter = 2e+3): 
     x_impute = dat.copy()
     k = 0
@@ -40,14 +39,10 @@ def EM(dat, mu0, sd0, tol = 1e-6, iter = 2e+3):
             break
     return dict(Mean_estimate = muk, STD_esimate = sdd, Num_Iteration = k + 1)
 
-
-
 # define Initial values
 mu0 = 8
 sd0 = 1
-
 result = EM(dat = x, mu0 = mu0, sd0 = sd0)
-    
 print(f"""
       Estimate of mu: {result['Mean_estimate'][-1]}, \n 
       Estimate of mu: {result['STD_esimate'][-1]}, \n
@@ -56,9 +51,9 @@ print(f"""
 ```
 
 
-          Estimate of mu: 10.06881465116522, 
+          Estimate of mu: 10.021231568285625, 
      
-          Estimate of mu: 1.8474510490957459, 
+          Estimate of mu: 1.8693251906526613, 
 
           Number of Iteration: 9
           
@@ -99,30 +94,32 @@ x[py$Missing] <- NA
 # Define the EM algorithm function
 em_algorithm <- function(x, mu0, sigma20, tol = 1e-6) {
   n <- length(x)
+  m <- x[!is.na(x)] |> length()
   k <- 0
   mu_k <- mu0
   sigma2_k <- sigma20
+
   
   while(TRUE) {
     # E-step: Calculate the expected values of the missing data
-    x_imputed <- ifelse(is.na(x), mu_k, x)
-    
+    s1_k <- sum(x[!is.na(x)]) + (n - m) * mu_k
+    s2_k <- sum((x[!is.na(x)]) ** 2) +  (n - m) * (sigma2_k + mu_k**2)
     # M-step: Update the parameters
-    mu_k1 <- sum(x_imputed, na.rm = TRUE) / n
-    sigma2_k1 <- sum((x_imputed - mu_k1)^2, na.rm = TRUE) / n
+    mu_kplus1 <- s1_k / n
+    sigma2_kplus1 <- s2_k/n - mu_kplus1**2
     
     # Check for convergence
-    if (all(abs(c(mu_k1, sigma2_k1) - c(mu_k, sigma2_k)) < tol)) {
+    if (all(abs(c(mu_kplus1, sigma2_kplus1) - c(mu_k, sigma2_k)) < tol)) {
       break
     }
     
     # Update the parameters for the next iteration
-    mu_k <- mu_k1
-    sigma2_k <- sigma2_k1
+    mu_k <- mu_kplus1
+    sigma2_k <- sigma2_kplus1
     k <- k + 1
   }
   
-  return(list(mu = mu_k, sigma2 = sigma2_k, iter = k))
+  return(list(mu = mu_kplus1, sigma2 = sigma2_kplus1, iter = k))
 }
 
 # Run the EM algorithm
@@ -136,6 +133,6 @@ cat("Estimated mean:", result$mu, "\n",
     )
 ```
 
-    Estimated mean:10.09109
-    Estimated variance:3.100321
+    Estimated mean:10.00229
+    Estimated variance:3.994224
     Number of iterations:9

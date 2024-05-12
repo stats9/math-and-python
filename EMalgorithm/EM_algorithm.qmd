@@ -108,30 +108,32 @@ x[py$Missing] <- NA
 # Define the EM algorithm function
 em_algorithm <- function(x, mu0, sigma20, tol = 1e-6) {
   n <- length(x)
+  m <- x[!is.na(x)] |> length()
   k <- 0
   mu_k <- mu0
   sigma2_k <- sigma20
+
   
   while(TRUE) {
     # E-step: Calculate the expected values of the missing data
-    x_imputed <- ifelse(is.na(x), mu_k, x)
-    
+    s1_k <- sum(x[!is.na(x)]) + (n - m) * mu_k
+    s2_k <- sum((x[!is.na(x)]) ** 2) +  (n - m) * (sigma2_k + mu_k**2)
     # M-step: Update the parameters
-    mu_k1 <- sum(x_imputed, na.rm = TRUE) / n
-    sigma2_k1 <- sum((x_imputed - mu_k1)^2, na.rm = TRUE) / n
+    mu_kplus1 <- s1_k / n
+    sigma2_kplus1 <- s2_k/n - mu_kplus1**2
     
     # Check for convergence
-    if (all(abs(c(mu_k1, sigma2_k1) - c(mu_k, sigma2_k)) < tol)) {
+    if (all(abs(c(mu_kplus1, sigma2_kplus1) - c(mu_k, sigma2_k)) < tol)) {
       break
     }
     
     # Update the parameters for the next iteration
-    mu_k <- mu_k1
-    sigma2_k <- sigma2_k1
+    mu_k <- mu_kplus1
+    sigma2_k <- sigma2_kplus1
     k <- k + 1
   }
   
-  return(list(mu = mu_k, sigma2 = sigma2_k, iter = k))
+  return(list(mu = mu_kplus1, sigma2 = sigma2_kplus1, iter = k))
 }
 
 # Run the EM algorithm
