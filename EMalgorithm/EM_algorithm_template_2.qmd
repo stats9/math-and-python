@@ -515,8 +515,9 @@ EM algorithm and Bootstrap.
 
 | $p$ | $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
 |:--------:|:--------:|:--------:|:--------:|:--------:|
-| $`r ress[1]`$  | $`r ress[2]`$ | $`r ress[3]`$ | $`r ress[4]`$ | $`r ress[5]`$ | 
+| $`r round(ress[1], 4)`$  | $`r round(ress[2], 4)`$ | $`r ress[3]`$ | $`r round(ress[4], 4)`$ | $`r round(ress[5], 4)`$ | 
 : Table.1 &nbsp; Estimate Using the combination of EM Algorithm {tbl-colwidths="[2,25]"}
+
 
 </center> 
 
@@ -527,9 +528,8 @@ EM algorithm and Bootstrap.
 
 | $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
 |:--------:|:--------:|:--------:|:--------:|
-| $`r temp2$MEAN[1]`$  | $`r temp2$Variance[1]`$ | $`r temp2$MEAN[2]`$ | $`r temp2$Variance[2]`$ 
+| $`r round(temp2$MEAN[1], 4)`$  | $`r round(temp2$Variance[1], 4)`$ | $`r round(temp2$MEAN[2], 4)`$ | $`r rounf(temp2$Variance[2], 4)`$ 
 : Table.2 &nbsp; Estimate Using the combination of EM Algorithm and Bootstrap {tbl-colwidths="[2,25]"}
-
 </center> 
 
 
