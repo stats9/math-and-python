@@ -323,7 +323,7 @@ Therefare the likelihood expression for the complete-data is given by:
 
 
 $$
-L_n(\theta|W, Y) = \prod_{i=1}^{n} p^{Y_i} \times (1-p)^{1-Y_i} \times \frac{1}{\sigma_1^{Y_i}} \times \phi\left(\frac{W_i - \mu_1}{\sigma^{Y_i}}\right)^{Y_i} \times 
+L_n(\theta|W, Y) = \prod_{i=1}^{n} p^{Y_i} \times (1-p)^{1-Y_i} \times \frac{1}{\sigma_1^{Y_i}} \times \phi\left(\frac{W_i - \mu_1}{\sigma_1}\right)^{Y_i} \times 
 \frac{1}{\sigma_2^{1- Y_i}}\times 
 \phi\left( \frac{W_i - \mu_2}{\sigma_2} \right)^{1-Y_i} 
 $$
