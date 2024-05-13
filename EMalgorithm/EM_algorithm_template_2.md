@@ -375,8 +375,8 @@ $$
 \end{aligned}
 $$
 
-From now, we apply the EM algorithm and find the expectation of Y_i,
-Since the conditional distribution of Y_i given W is
+From now, we apply the EM algorithm and find the expectation of $Y_i$,
+Since the conditional distribution of $Y_i$ given $W$ is
 
 $$
 Y_i \bigg | W_i, \theta^{(k)} \sim \text{Bin}(1, p_i^{(k)})

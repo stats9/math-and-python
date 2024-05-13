@@ -344,8 +344,10 @@ $$
 $$
 
 
-From now, we apply the EM algorithm and find the expectation of Y_i, Since 
-the conditional distribution of Y_i given W is 
+
+From now, we apply the EM algorithm and find the expectation of $Y_i$, Since 
+the conditional distribution of $Y_i$ given $W$ is 
+
 
 
 $$
