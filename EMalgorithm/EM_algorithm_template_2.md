@@ -431,9 +431,9 @@ combination of EM algorithm and Bootstrap.
 
 <center>
 
-|   $p$    |  $\mu_1$  |   $\mu_2$    | $\sigma_1^2$ | $\sigma_2^2$ |
-|:--------:|:---------:|:------------:|:------------:|:------------:|
-| $0.3609$ | $54.6148$ | $80.0910594$ |  $34.4711$   |  $34.4304$   |
+|  $p$   | $\mu_1$ |   $\mu_2$    | $\sigma_1^2$ | $\sigma_2^2$ |
+|:------:|:-------:|:------------:|:------------:|:------------:|
+| $0.36$ | $54.61$ | $80.0910594$ |   $34.47$    |   $34.43$    |
 
 Table.1   Estimate Using the combination of EM Algorithm
 
@@ -442,9 +442,9 @@ Table.1   Estimate Using the combination of EM Algorithm
 <hr>
 <center>
 
-|  $\mu_1$  |  $\mu_2$  | $\sigma_1^2$ | $\sigma_2^2$ |
-|:---------:|:---------:|:------------:|:------------:|
-| $54.6301$ | $34.4104$ |  $80.0568$   |  $34.1734$   |
+| $\mu_1$ | $\mu_2$ | $\sigma_1^2$ | $\sigma_2^2$ |
+|:-------:|:-------:|:------------:|:------------:|
+| $54.63$ | $34.41$ |   $80.06$    |   $34.17$    |
 
 Table.2   Estimate Using the combination of EM Algorithm and Bootstrap
 
