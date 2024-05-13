@@ -369,7 +369,7 @@ data faithful becomes:
 
 $$
 \begin{aligned} 
-\ell_n(\theta|W, Y) & = \sum_{i = 1}^n Y_i times \log(p) + \sum_{i = 1}^n (1 - Y_i) \times \log(1-p) \\
+\ell_n(\theta|W, Y) & = \sum_{i = 1}^n Y_i \times \log(p) + \sum_{i = 1}^n (1 - Y_i) \times \log(1-p) \\
 & - \frac{1}{2} \sum_{i = 1}^n Y_i \times \log(2\pi \sigma_1^2) - \frac{1}{2\sigma_1^2}\sum_{i = 1}^n Y_i\times (W_i-\mu_1)^2 \\
 & - \frac{1}{2} \sum_{i = 1}^n (1- Y_i) \times \log(2\pi \sigma_2^2) - \frac{1}{2\sigma_2^2}\sum_{i =1}^n (1-Y_i) \times (W_i - \mu_2)^2. 
 \end{aligned}
