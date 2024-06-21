@@ -10,7 +10,7 @@ fig-cap-location: bottom
 
 
 
-\nawpage 
+\newpage 
 
 # Define Prolbem 
 
