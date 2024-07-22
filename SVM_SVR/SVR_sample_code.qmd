@@ -1,0 +1,92 @@
+---
+title: Support Vector Regression (SVR)
+format: gfm
+warning: false 
+toc: true 
+fig-height: 7
+fig-width: 7
+---
+
+
+
+```{r} 
+#| include: false 
+
+
+library (reticulate)
+path <- Sys.which("python")
+path <- gsub("\\", "//", path, fixed = TRUE)
+use_python(path)
+
+
+```
+
+
+<br><br><br> 
+
+# Using python 
+
+***
+
+
+## loading require libraries 
+
+```{python} 
+import numpy as np 
+import matplotlib.pyplot as plt 
+from sklearn.svm import SVR 
+import matplotlib.animation as animation  
+from celluloid import Camera
+```
+
+
+## Generate data 
+
+```{python} 
+np.random.seed(1234)
+xx = np.sort(5 * np.random.rand(40, 1), axis = 0)
+# xx
+yy = np.sin(xx).flatten()
+# yy
+```
+
+
+
+### add noise to data 
+
+```{python} 
+np.random.seed(1234)
+err = np.random.rand(40)
+yy += err 
+```
+
+
+## Fit SVR Model with linear kernel 
+
+```{python} 
+
+Tol = [0.01, 0.05, 0.1, 0.2, 0.5, 1, 5]
+
+
+fig = plt.figure(figsize = (9, 9))
+camera = Camera(fig)
+
+for k in Tol: 
+    Model_temp = SVR(kernel = 'linear', tol = k)
+    Model_temp.fit(xx, yy)
+    pred = Model_temp.predict(xx) 
+    plt.scatter(x = xx, y = yy, color = 'red', s = 50)
+    snapp = plt.plot(xx, pred)
+    plt.legend(snapp, [f'Tolerance:{k}'])
+    camera.snap() 
+# animation = camera.animate()
+
+animation = camera.animate(interval=500, blit=True)  
+
+plt.show()
+
+
+
+
+
+```
