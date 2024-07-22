@@ -44,8 +44,28 @@ yy += err
 
 ## Fit SVR Model with linear kernel
 
+``` python
+Tol = [0.01, 0.05, 0.1, 0.2, 0.5, 1, 5]
+
+
+fig = plt.figure(figsize = (9, 9))
+camera = Camera(fig)
+
+for k in Tol: 
+    Model_temp = SVR(kernel = 'linear', tol = k)
+    Model_temp.fit(xx, yy)
+    pred = Model_temp.predict(xx) 
+    plt.scatter(x = xx, y = yy, color = 'red', s = 50)
+    snapp = plt.plot(xx, pred)
+    plt.legend(snapp, [f'Tolerance:{k}'])
+    camera.snap() 
+# animation = camera.animate()
+
+animation = camera.animate(interval=500, blit=True)  
+animation.save('animation.mp4', writer='ffmpeg', fps = 1.5)  
+plt.show()
+```
+
 ![](SVR_sample_code_files/figure-commonmark/unnamed-chunk-5-1.png)
 
 ------------------------------------------------------------------------
-
-[animation.mp4](animation.mp4)
