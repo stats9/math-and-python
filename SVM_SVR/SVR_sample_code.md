@@ -59,9 +59,9 @@ for k in Tol:
     snapp = plt.plot(xx, pred)
     plt.legend(snapp, [f'Tolerance:{k}'])
     camera.snap() 
-# animation = camera.animate()
+animation = camera.animate()
 
-animation = camera.animate(interval=500, blit=True)  
+# animation = camera.animate(interval=500, blit=True)  
 
 plt.show()
 ```
