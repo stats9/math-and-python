@@ -111,7 +111,7 @@ plt.show()
 ## fit SVR Model with poly kernel
 
 ```{python}
-
+#| eval: false 
 
 fig = plt.figure(figsize = (9, 9))
 camera = Camera(fig)
@@ -145,7 +145,7 @@ plt.show()
 ## fit SVR Model with radial kernel
 
 ```{python}
-
+#| eval: false 
 
 fig = plt.figure(figsize = (9, 9))
 camera = Camera(fig)

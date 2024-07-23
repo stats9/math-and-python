@@ -99,8 +99,6 @@ animation.save('animation2.gif', writer='ffmpeg', fps = 1.5)
 plt.show()
 ```
 
-![](SVR_sample_code_files/figure-commonmark/unnamed-chunk-7-1.png)
-
 ![see this gif](animation2.gif)
 
 ------------------------------------------------------------------------
@@ -127,8 +125,6 @@ animation = camera.animate(interval=500, blit=True)
 animation.save('animation3.gif', writer='ffmpeg', fps = 1.5)  
 plt.show()
 ```
-
-![](SVR_sample_code_files/figure-commonmark/unnamed-chunk-8-3.png)
 
 ![see this gif](animation3.gif)
 
