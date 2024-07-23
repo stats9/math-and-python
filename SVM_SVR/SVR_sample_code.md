@@ -102,6 +102,11 @@ for k in Tol:
     Model_temp.fit(xx, yy)
     pred = Model_temp.predict(xx) 
     plt.scatter(x = xx, y = yy, color = 'red', s = 50)
+    plt.title("SVR Model with Kernel Radial (rbf)")
+    plt.xlabel(r"$x$")
+    plt.ylabel(r"$y$")
+    plt.suptitle("@STATS9", x = 0.15, y = '0.95', fontsize = 12, color = 'darkblue', 
+    alpha = 0.25)
     snapp = plt.plot(xx, pred)
     plt.legend(snapp, [f'Tolerance:{k}'])
     camera.snap() 
