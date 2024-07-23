@@ -64,7 +64,7 @@ yy += err
 ## Fit SVR Model with linear kernel 
 
 ```{python} 
-#| eval: false 
+
 
 Tol = [0.01, 0.05, 0.1, 0.2, 0.5, 1, 5]
 
@@ -83,14 +83,14 @@ for k in Tol:
 # animation = camera.animate()
 
 animation = camera.animate(interval=500, blit=True)  
-animation.save('animation.mp4', writer='ffmpeg', fps = 1.5)  
+animation.save('animation.gif', writer='ffmpeg', fps = 1.5)  
 plt.show()
 
 ```
 
 
 
-{{<video animation.mp4>}}
+
 
 
 
