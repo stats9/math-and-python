@@ -64,7 +64,7 @@ yy += err
 ## Fit SVR Model with linear kernel 
 
 ```{python} 
-
+#| eval: false
 
 Tol = [0.01, 0.05, 0.1, 0.2, 0.5, 1, 5]
 
@@ -90,7 +90,7 @@ plt.show()
 
 
 
-
+![see this gif](animation.gif)
 
 
 

@@ -66,6 +66,6 @@ animation.save('animation.gif', writer='ffmpeg', fps = 1.5)
 plt.show()
 ```
 
-![](SVR_sample_code_files/figure-commonmark/unnamed-chunk-5-1.png)
+![see this gif](animation.gif)
 
 ------------------------------------------------------------------------
