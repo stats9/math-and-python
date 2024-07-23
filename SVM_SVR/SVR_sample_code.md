@@ -7,6 +7,12 @@
     - [add noise to data](#add-noise-to-data)
   - [Fit SVR Model with linear
     kernel](#fit-svr-model-with-linear-kernel)
+  - [fit SVR Model with poly kernel](#fit-svr-model-with-poly-kernel)
+  - [fit SVR Model with radial
+    kernel](#fit-svr-model-with-radial-kernel)
+- [Using R Programming](#using-r-programming)
+  - [fit SVR Model with linear
+    kernel](#fit-svr-model-with-linear-kernel-1)
 
 <br><br><br>
 
@@ -62,10 +68,131 @@ for k in Tol:
 # animation = camera.animate()
 
 animation = camera.animate(interval=500, blit=True)  
-animation.save('animation.gif', writer='ffmpeg', fps = 1.5)  
+animation.save('animation1.gif', writer='ffmpeg', fps = 1.5)  
 plt.show()
 ```
 
-![see this gif](animation.gif)
+![see this gif](animation1.gif)
 
 ------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## fit SVR Model with poly kernel
+
+``` python
+fig = plt.figure(figsize = (9, 9))
+camera = Camera(fig)
+
+for k in Tol: 
+    Model_temp = SVR(kernel = 'poly', tol = k)
+    Model_temp.fit(xx, yy)
+    pred = Model_temp.predict(xx) 
+    plt.scatter(x = xx, y = yy, color = 'red', s = 50)
+    snapp = plt.plot(xx, pred)
+    plt.legend(snapp, [f'Tolerance:{k}'])
+    camera.snap() 
+# animation = camera.animate()
+
+animation = camera.animate(interval=500, blit=True)  
+animation.save('animation2.gif', writer='ffmpeg', fps = 1.5)  
+plt.show()
+```
+
+![](SVR_sample_code_files/figure-commonmark/unnamed-chunk-7-1.png)
+
+![see this gif](animation2.gif)
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## fit SVR Model with radial kernel
+
+``` python
+fig = plt.figure(figsize = (9, 9))
+camera = Camera(fig)
+
+for k in Tol: 
+    Model_temp = SVR(kernel = "rbf", tol = k, gamma = 0.1)
+    Model_temp.fit(xx, yy)
+    pred = Model_temp.predict(xx) 
+    plt.scatter(x = xx, y = yy, color = 'red', s = 50)
+    snapp = plt.plot(xx, pred)
+    plt.legend(snapp, [f'Tolerance:{k}'])
+    camera.snap() 
+# animation = camera.animate()
+
+animation = camera.animate(interval=500, blit=True)  
+animation.save('animation3.gif', writer='ffmpeg', fps = 1.5)  
+plt.show()
+```
+
+![](SVR_sample_code_files/figure-commonmark/unnamed-chunk-8-3.png)
+
+![see this gif](animation3.gif)
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# Using R Programming
+
+------------------------------------------------------------------------
+
+## fit SVR Model with linear kernel
+
+``` r
+library(e1071)
+library(ggplot2) 
+library(gganimate)
+
+xR <- py$xx
+yR <- py$yy 
+tols <- py$Tol |> unlist()
+
+Models = list()
+j <- 0
+for (i in tols) {
+    # i <- tols[1]
+    j <- j + 1
+    tryCatch(
+        expr = {
+        Models[[j]] = svm(yR ~ xR, tolerance = i, 
+                        kernel = 'linear', 
+                            type = 'eps-regression') |>
+                predict(type = "response") 
+        }, 
+        error = function(e) {
+            ## do Nothing
+        }
+    )
+
+}
+Models[[j]] <- rep(yR |> mean(), length(xR))
+
+names(Models) <- paste0('Tolerance: ', tols)
+dat <- as.data.frame(Models) |> 
+        dplyr :: mutate(x = xR)  |> 
+        tidyr :: pivot_longer(!x, names_to = "Tolerance", 
+                values_to = "SVR_Preds") |> 
+                dplyr ::  mutate(Tols = rep(paste0("Tolerance: ", tols), 40))
+
+dat2 = data.frame(x = xR, y = yR)
+P <- dat2 |> 
+        ggplot(aes(x = x, y = y)) + 
+        geom_point(color = "darkblue", 
+                size = 5) + 
+            geom_line(data = dat, aes(x = x, y = SVR_Preds, 
+                    group = Tolerance, color = Tolerance), 
+                    linewidth = 1) +
+            theme_bw() + 
+            theme(legend.position = 'none') + 
+            labs(title = "{closest_state}")
+P1 <- P + transition_states(Tols) 
+animate(P1, renderer = gifski_renderer("Anim.gif", width = 1200, height = 800))
+```
+
+![see this gif](Anim.gif)
