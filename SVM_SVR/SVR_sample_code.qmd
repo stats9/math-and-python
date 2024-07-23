@@ -64,7 +64,7 @@ yy += err
 ## Fit SVR Model with linear kernel 
 
 ```{python} 
-
+#| eval: false 
 
 Tol = [0.01, 0.05, 0.1, 0.2, 0.5, 1, 5]
 
@@ -90,7 +90,7 @@ plt.show()
 
 
 
-<video width = "630" height = "300" src = "animation.mp4"> </video>
+![see this video:](https://github.com/stats9/math-and-python/blob/master/SVM_SVR/animation.mp4)
 
 
 

@@ -66,9 +66,7 @@ animation.save('animation.mp4', writer='ffmpeg', fps = 1.5)
 plt.show()
 ```
 
-![](SVR_sample_code_files/figure-commonmark/unnamed-chunk-5-1.png)
-
-<video width="630" height="300" src="animation.mp4">
-</video>
+![see this
+video:](https://github.com/stats9/math-and-python/blob/master/SVM_SVR/animation.mp4)
 
 ------------------------------------------------------------------------
