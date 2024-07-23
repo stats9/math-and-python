@@ -66,7 +66,6 @@ animation.save('animation.mp4', writer='ffmpeg', fps = 1.5)
 plt.show()
 ```
 
-![see this
-video:](https://github.com/stats9/math-and-python/blob/master/SVM_SVR/animation.mp4)
+[animation.mp4](animation.mp4)
 
 ------------------------------------------------------------------------
