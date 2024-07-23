@@ -89,7 +89,44 @@ plt.show()
 ```
 
 
-***
 
+<video width = "630" height = "300" src = "animation.mp4"> </video>
+
+
+
+```{python}
+#| eval: false
+#| include: false 
+
+
+
+Tol = [0.01,  0.1, 0.3, 1]
+
+
+fig, ax = plt.figure(2, 2, figsize = (9, 9))
+j = -1
+i = -1
+for k in Tol: 
+    Model_temp = SVR(kernel = 'linear', tol = k)
+    Model_temp.fit(xx, yy)
+    pred = Model_temp.predict(xx) 
+    for i in range(2): 
+        for 
+    ax[j].scatter(x = xx, y = yy, color = 'red', s = 50)
+    snapp = plt.plot(xx, pred)
+    plt.legend(snapp, [f'Tolerance:{k}'])
+    camera.snap() 
+# animation = camera.animate()
+
+animation = camera.animate(interval=500, blit=True)  
+animation.save('animation.mp4', writer='ffmpeg', fps = 1.5)  
+plt.show()
+
+
+```
+
+
+
+***
 
 

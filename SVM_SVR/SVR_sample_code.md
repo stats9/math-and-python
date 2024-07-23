@@ -68,4 +68,7 @@ plt.show()
 
 ![](SVR_sample_code_files/figure-commonmark/unnamed-chunk-5-1.png)
 
+<video width="630" height="300" src="animation.mp4">
+</video>
+
 ------------------------------------------------------------------------
